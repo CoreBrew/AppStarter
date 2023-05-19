@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{C0C1A48D-106D-4E7D-8AB6-142B8ECCF832}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{329A308E-FABE-40A6-B8B3-E5D9DB72D73A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{E34577B3-8112-4207-85A0-67F7B212D94E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreBrew.AppStarter", "Src\CoreBrew.AppStarter\CoreBrew.AppStarter.csproj", "{40589C16-D4A4-4D0B-8FFE-B28D3183DE10}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{40589C16-D4A4-4D0B-8FFE-B28D3183DE10} = {C0C1A48D-106D-4E7D-8AB6-142B8ECCF832}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40589C16-D4A4-4D0B-8FFE-B28D3183DE10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40589C16-D4A4-4D0B-8FFE-B28D3183DE10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40589C16-D4A4-4D0B-8FFE-B28D3183DE10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40589C16-D4A4-4D0B-8FFE-B28D3183DE10}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
