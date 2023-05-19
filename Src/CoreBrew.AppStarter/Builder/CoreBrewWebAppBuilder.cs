@@ -1,6 +1,4 @@
-﻿
-
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 
 namespace CoreBrew.AppStarter.Builder;
@@ -11,6 +9,6 @@ public class CoreBrewWebAppBuilder
 
     internal CoreBrewWebAppBuilder(WebApplicationOptions options, Action<IHostBuilder>? configureDefaults = null)
     {
-        
+        ApplicationBuilder = WebApplication.CreateBuilder(options);
     }
 }
