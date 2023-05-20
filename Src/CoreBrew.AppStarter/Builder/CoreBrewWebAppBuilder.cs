@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -20,6 +21,8 @@ public class CoreBrewWebAppBuilder
 
         ConfigureServices(Services);
         ConfigureLogging(Services,ApplicationBuilder.Logging);
+        ConfigureConfiguration(ApplicationBuilder.Configuration);
+        
     }
     public WebApplication Build()
     {
@@ -32,6 +35,11 @@ public class CoreBrewWebAppBuilder
     }
 
     protected void ConfigureServices(IServiceCollection services)
+    {
+        
+    }
+
+    protected void ConfigureConfiguration(ConfigurationManager configurationManager)
     {
         
     }
