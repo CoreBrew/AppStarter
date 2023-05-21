@@ -10,6 +10,7 @@ public class TestHostedService : CoreBrewHostedServiceBase
         base(hostApplicationLifetime, logger)
     {
         _logger = logger;
+        TargetCycleTime = TimeSpan.FromSeconds(5);
     }
 
     protected override void Execute()

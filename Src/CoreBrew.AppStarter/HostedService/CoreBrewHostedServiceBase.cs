@@ -46,16 +46,20 @@ public abstract class CoreBrewHostedServiceBase: BackgroundService
     {
         return Task.Run(() =>
         {
-            while (!stoppingToken.IsCancellationRequested && !OneShot)
+            while (!stoppingToken.IsCancellationRequested)
             {
                 _cycleTimeStart = DateTime.UtcNow;
                 if (_applicationStarted)
                 {
-                    InternalExecute();                  
+                    InternalExecute();
+                    if (OneShot)
+                    {
+                        break;
+                    }
                 }
                 EnsureTargetCycleTimeHasElapsed();
             }
-        });
+        }, stoppingToken);
     }
 
     private void HostApplicationStarted()
