@@ -12,14 +12,16 @@ public abstract class CoreBrewHostedServiceBase: BackgroundService
 {
     private readonly IHostApplicationLifetime _hostApplicationLifetime;
     private readonly ILogger<CoreBrewHostedServiceBase> _logger;
+    private DateTime _cycleTimeStart;
+    private bool _applicationStarted = false;
 
     /// <summary>
     /// The target execute method cycle time. If the execute method takes shorter
     /// than the target a delay will automatically be inserted to force the cycle time.
     /// If the execute method takes longer than the target cycle time it will rerun the execute method immediately
     /// </summary>
-    /// <value>defaults to 1000</value>    
-    public int TargetCycleTime { get; set; } = 1000;
+    /// <value>defaults to 1 second</value>    
+    public TimeSpan TargetCycleTime { get; set; } = TimeSpan.FromSeconds(1);
     /// <summary>
     /// When execute method ends put this forced delay in
     /// </summary>
@@ -42,17 +44,23 @@ public abstract class CoreBrewHostedServiceBase: BackgroundService
     
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (!stoppingToken.IsCancellationRequested && !OneShot)
+        return Task.Run(() =>
         {
-            InternalExecute();
-        }
-
-        return Task.CompletedTask;
+            while (!stoppingToken.IsCancellationRequested && !OneShot)
+            {
+                _cycleTimeStart = DateTime.UtcNow;
+                if (_applicationStarted)
+                {
+                    InternalExecute();                  
+                }
+                EnsureTargetCycleTimeHasElapsed();
+            }
+        });
     }
 
     private void HostApplicationStarted()
     {
-        
+        _applicationStarted = true;
     }
 
     private void InternalExecute()
@@ -68,5 +76,14 @@ public abstract class CoreBrewHostedServiceBase: BackgroundService
         }
     }
     protected abstract void Execute();
+
+    private void EnsureTargetCycleTimeHasElapsed()
+    {
+        var elapsedTime = DateTime.UtcNow - _cycleTimeStart;
+        if (elapsedTime < TargetCycleTime)
+        {
+            Thread.Sleep(TargetCycleTime - elapsedTime);
+        }
+    }
 
 }

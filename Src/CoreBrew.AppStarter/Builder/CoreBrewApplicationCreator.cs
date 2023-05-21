@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CoreBrew.AppStarter.Builder;
 
 public class CoreBrewApplicationCreator
 {
-    public static WebApplication CreateWebApplication(string [] args)
+    public static WebApplication CreateWebApplication(CoreBrewWebAppBuilder builder)
     {
-        CoreBrewWebAppBuilder builder = new(new WebApplicationOptions() { Args = args});
-        return builder.Build();
+        return builder.Build();;
     }
 }

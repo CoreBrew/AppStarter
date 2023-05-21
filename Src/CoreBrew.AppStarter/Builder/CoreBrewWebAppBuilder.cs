@@ -11,9 +11,10 @@ public class CoreBrewWebAppBuilder
     protected readonly WebApplicationBuilder ApplicationBuilder;
     public IServiceCollection Services => ApplicationBuilder.Services;
 
-    internal CoreBrewWebAppBuilder(WebApplicationOptions options, Action<IHostBuilder>? configureDefaults = null)
+    protected CoreBrewWebAppBuilder(WebApplicationOptions options, Action<IHostBuilder>? configureDefaults = null)
     {
-        ApplicationBuilder = WebApplication.CreateBuilder(options);
+        string[] args = new [] {""};
+        ApplicationBuilder = WebApplication.CreateBuilder(args);
 
         ApplicationBuilder.Services.AddControllers();
         ApplicationBuilder.Services.AddEndpointsApiExplorer();
@@ -26,20 +27,37 @@ public class CoreBrewWebAppBuilder
     }
     public WebApplication Build()
     {
-        return ApplicationBuilder.Build();
+        var app = ApplicationBuilder.Build();
+        ConfigureApp(app);
+        return app;
     }
 
-    protected void ConfigureLogging(IServiceCollection services,ILoggingBuilder loggingBuilder)
+    protected virtual void ConfigureApp(WebApplication app)
+    {
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseHttpsRedirection();
+
+        app.UseAuthorization();
+
+        app.MapControllers();             
+    }
+    
+    protected virtual void ConfigureLogging(IServiceCollection services,ILoggingBuilder loggingBuilder)
     {
         services.AddLogging();
     }
 
-    protected void ConfigureServices(IServiceCollection services)
+    protected virtual void ConfigureServices(IServiceCollection services)
     {
         
     }
 
-    protected void ConfigureConfiguration(ConfigurationManager configurationManager)
+    protected virtual void ConfigureConfiguration(ConfigurationManager configurationManager)
     {
         
     }
