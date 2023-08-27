@@ -6,32 +6,53 @@ using Microsoft.Extensions.Logging;
 
 namespace CoreBrew.AppStarter.Builder;
 
-public class CoreBrewWebAppBuilder
+/// <summary>
+/// Abstract base class setting up the fundamentals of the WebApp
+/// </summary>
+public abstract class CoreBrewWebAppBuilder
 {
+    /// <summary>
+    /// The application builder
+    /// </summary>
     protected readonly WebApplicationBuilder ApplicationBuilder;
+    
+    /// <summary>
+    /// The IOC service collection
+    /// </summary>
     public IServiceCollection Services => ApplicationBuilder.Services;
 
-    protected CoreBrewWebAppBuilder(WebApplicationOptions options, Action<IHostBuilder>? configureDefaults = null)
+    /// <summary>
+    /// 
+    /// </summary>
+    protected CoreBrewWebAppBuilder()
     {
-        string[] args = new [] {""};
-        ApplicationBuilder = WebApplication.CreateBuilder(args);
+        ApplicationBuilder = WebApplication.CreateBuilder(Environment.GetCommandLineArgs());
 
         ApplicationBuilder.Services.AddControllers();
         ApplicationBuilder.Services.AddEndpointsApiExplorer();
         ApplicationBuilder.Services.AddSwaggerGen();
 
-        ConfigureServices(Services);
-        ConfigureLogging(Services,ApplicationBuilder.Logging);
-        ConfigureConfiguration(ApplicationBuilder.Configuration);
-        
+        Configure();
+        return;
+
+        void Configure()
+        {
+            ConfigureServices(Services);
+            ConfigureLogging(Services, ApplicationBuilder.Logging);
+            ConfigureConfiguration(ApplicationBuilder.Configuration);
+        }
     }
-    public WebApplication Build()
+    internal WebApplication Build()
     {
         var app = ApplicationBuilder.Build();
         ConfigureApp(app);
         return app;
     }
 
+    /// <summary>
+    /// Configure app, override to customize app configuration
+    /// </summary>
+    /// <param name="app"></param>
     protected virtual void ConfigureApp(WebApplication app)
     {
         if (app.Environment.IsDevelopment())
@@ -47,16 +68,29 @@ public class CoreBrewWebAppBuilder
         app.MapControllers();             
     }
     
+    /// <summary>
+    /// Configures base logging
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="loggingBuilder"></param>
     protected virtual void ConfigureLogging(IServiceCollection services,ILoggingBuilder loggingBuilder)
     {
         services.AddLogging();
     }
 
+    /// <summary>
+    /// Configures services
+    /// </summary>
+    /// <param name="services"></param>
     protected virtual void ConfigureServices(IServiceCollection services)
     {
         
     }
 
+    /// <summary>
+    /// Configure the configuration/options
+    /// </summary>
+    /// <param name="configurationManager"></param>
     protected virtual void ConfigureConfiguration(ConfigurationManager configurationManager)
     {
         
