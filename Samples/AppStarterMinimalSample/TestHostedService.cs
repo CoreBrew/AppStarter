@@ -11,10 +11,18 @@ public class TestHostedService : CoreBrewHostedServiceBase
     {
         _logger = logger;
         TargetCycleTime = TimeSpan.FromSeconds(5);
+        ShutdownOnException = false;
     }
 
-    protected override void Execute()
+    protected override async Task Execute()
     {
         _logger.LogInformation("This is actually not bad");
+        await TestExceptionIsCaughtInCoreBrewHostedServiceBase();
+    }
+
+    private Task TestExceptionIsCaughtInCoreBrewHostedServiceBase()
+    {
+        Thread.Sleep(4000);
+        throw new Exception();
     }
 }

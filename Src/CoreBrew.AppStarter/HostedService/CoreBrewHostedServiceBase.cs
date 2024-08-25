@@ -13,7 +13,8 @@ public abstract class CoreBrewHostedServiceBase: BackgroundService
     private readonly IHostApplicationLifetime _hostApplicationLifetime;
     private readonly ILogger<CoreBrewHostedServiceBase> _logger;
     private DateTime _cycleTimeStart;
-    private bool _applicationStarted = false;
+    private bool _applicationStarted;
+    private CancellationToken _stoppingToken;
 
     /// <summary>
     /// The target execute method cycle time. If the execute method takes shorter
@@ -21,41 +22,42 @@ public abstract class CoreBrewHostedServiceBase: BackgroundService
     /// If the execute method takes longer than the target cycle time it will rerun the execute method immediately
     /// </summary>
     /// <value>defaults to 1 second</value>    
-    public TimeSpan TargetCycleTime { get; set; } = TimeSpan.FromSeconds(1);
-    /// <summary>
-    /// When execute method ends put this forced delay in
-    /// </summary>
-    /// <value>defaults to 0</value>
-    public int ExecutionMethodEndSleep { get; set; } = 0;
-
-    /// <summary>
-    /// Setting one shot to true will result in the execute method being run only once.
-    /// <see cref="ExecutionMethodEndSleep"/> will still be respected in this mode
-    /// </summary>
+    protected TimeSpan TargetCycleTime { get; set; } = TimeSpan.FromSeconds(1);
     
-    public bool OneShot { get; set; } = false;
+    /// <summary>
+    /// <see cref="ShutdownOnException"/> configures if the hosted service should close the application on any unhandled
+    /// exception. It defaults to true. If set to false, the hosted service will simply log the exception and continue
+    /// to run.
+    /// </summary>
+    protected bool ShutdownOnException { get; set; } = false;
 
-    protected CoreBrewHostedServiceBase(IHostApplicationLifetime hostApplicationLifetime,ILogger<CoreBrewHostedServiceBase> logger): base()
+    /// <inheritdoc />
+    protected CoreBrewHostedServiceBase(IHostApplicationLifetime hostApplicationLifetime,ILogger<CoreBrewHostedServiceBase> logger)
     {
         _hostApplicationLifetime = hostApplicationLifetime;
         _logger = logger;
         _hostApplicationLifetime.ApplicationStarted.Register(HostApplicationStarted);
+        _hostApplicationLifetime.ApplicationStopping.Register(HostApplicationStopping);
     }
-    
+
+    private void HostApplicationStopping()
+    {
+        StopAsync(_stoppingToken);
+        _logger.LogInformation("HostedService: {ServiceName} is stopping", GetType().Name);
+    }
+
+    /// <inheritdoc />
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        return Task.Run(() =>
+        _stoppingToken = stoppingToken;
+        return Task.Run(async ()  =>
         {
             while (!stoppingToken.IsCancellationRequested)
             {
                 _cycleTimeStart = DateTime.UtcNow;
                 if (_applicationStarted)
                 {
-                    InternalExecute();
-                    if (OneShot)
-                    {
-                        break;
-                    }
+                    await InternalExecute();
                 }
                 EnsureTargetCycleTimeHasElapsed();
             }
@@ -67,19 +69,32 @@ public abstract class CoreBrewHostedServiceBase: BackgroundService
         _applicationStarted = true;
     }
 
-    private void InternalExecute()
+    private async Task InternalExecute()
     {
         try
         {
-            Execute();
+            await Execute();
         }
         catch (Exception e)
         {
-            _logger.LogCritical(e,"Unhandled exception in {ClassName}",GetType().Name);
-            _hostApplicationLifetime.StopApplication();
+            _logger.LogCritical(e,"Unhandled exception in Execute method for hosted service: {ClassName}",GetType().Name);
+            if (ShutdownOnException)
+            {
+                _logger.LogCritical("Shutting down from hosted service: {ClassName}",GetType().Name);
+                _hostApplicationLifetime.StopApplication();
+                await StopAsync(_stoppingToken);                
+            }
+            else
+            {
+                _logger.LogCritical("HostedService: {ClassName} was configured to continue to run on exception",GetType().Name);                
+            }
         }
     }
-    protected abstract void Execute();
+    /// <summary>
+    /// The Execute method of the CoreBrewHostedService. If any unhandled exceptions escape this method 
+    /// </summary>
+    /// <returns></returns>
+    protected abstract Task Execute();
 
     private void EnsureTargetCycleTimeHasElapsed()
     {
