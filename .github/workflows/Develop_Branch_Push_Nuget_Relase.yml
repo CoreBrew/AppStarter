@@ -41,8 +41,15 @@ jobs:
 
     - name: Pack the NuGet package
       run: dotnet pack --configuration Debug --output ./artifacts
-
+      
+      # Find the .nupkg file and push it
     - name: Push NuGet package
       env:
-        NUGET_API_KEY: ${{ secrets.PUSH_KEY_COREBREW_APPSTARTER }}  # Add your NuGet API Key to GitHub Secrets
-      run: dotnet nuget push ./artifacts/*.nupkg -k %NUGET_API_KEY% -s https://api.nuget.org/v3/index.json
+        NUGET_API_KEY: ${{ secrets.PUSH_KEY_COREBREW_APPSTARTER }}
+      run: |
+        $nupkg = Get-ChildItem -Path ./artifacts -Filter *.nupkg | Select-Object -First 1
+        if ($nupkg -eq $null) {
+          throw "No .nupkg file found in ./artifacts"
+        }
+        dotnet nuget push $nupkg.FullName -k %NUGET_API_KEY% -s https://api.nuget.org/v3/index.json
+      shell: pwsh
