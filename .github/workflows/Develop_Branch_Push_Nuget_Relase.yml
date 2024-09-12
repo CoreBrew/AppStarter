@@ -1,4 +1,4 @@
-name: Publish develop branch nuget package
+name: Publish_develop_branch_NuGetPackage
 
 on:
   push:
@@ -41,4 +41,4 @@ jobs:
     - name: Push NuGet package
       env:
         NUGET_API_KEY: ${{ secrets.PUSH_KEY_COREBREW_APPSTARTER }}  # Add your NuGet API Key to GitHub Secrets
-      run: dotnet nuget push ./artifacts/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./artifacts/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
