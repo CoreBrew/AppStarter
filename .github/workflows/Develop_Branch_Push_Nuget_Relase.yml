@@ -34,9 +34,13 @@ jobs:
 
     - name: Build project
       run: dotnet build --configuration Debug --no-restore
+      
+      # Ensure the artifacts folder exists
+    - name: Create artifacts folder
+      run: mkdir artifacts
 
     - name: Pack the NuGet package
-      run: dotnet pack --configuration Debug --no-build --output ./artifacts
+      run: dotnet pack --configuration Debug --output ./artifacts
 
     - name: Push NuGet package
       env:
