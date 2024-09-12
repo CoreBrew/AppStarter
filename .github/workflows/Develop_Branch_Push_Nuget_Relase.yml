@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-job:
-    uses: CoreBrew/github-actions-workflows/.github/workflows/Publish_Develop_Branch.yml@master
+    uses: CoreBrew/github-actions-workflows/.github/workflows/Publish_Develop_Branch.yml@main
     
     
 
