@@ -29,7 +29,7 @@ public abstract class CoreBrewHostedServiceBase: BackgroundService
     /// exception. It defaults to true. If set to false, the hosted service will simply log the exception and continue
     /// to run.
     /// </summary>
-    protected bool ShutdownOnException { get; set; } = false;
+    protected bool ShutdownOnException { get; set; }
 
     /// <inheritdoc />
     protected CoreBrewHostedServiceBase(IHostApplicationLifetime hostApplicationLifetime,ILogger<CoreBrewHostedServiceBase> logger)
