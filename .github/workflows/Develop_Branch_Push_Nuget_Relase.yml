@@ -8,6 +8,8 @@ on:
 jobs:
   build-job:
     uses: CoreBrew/github-actions-workflows/.github/workflows/Publish_Develop_Branch.yml@main # call shared external workflow
+    secrets:
+      access-token: ${{ secrets.UPDATE_ALL_PACKAGES_KEY }}
     
     
 
