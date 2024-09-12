@@ -6,50 +6,8 @@ on:
       - develop  # Triggers the workflow on pushes to the 'develop' branch
 
 jobs:
-  publish:
-    runs-on: windows-latest
+  build-job:
+    uses: CoreBrew/github-actions-workflows/.github/workflows/Publish_Develop_Branch.yml@master
+    
+    
 
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-
-
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v2
-
-    # Execute all unit tests in the solution
-    - name: Execute unit tests
-      run: dotnet test      
-
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Build project
-      run: dotnet build --configuration Debug --no-restore
-      
-      # Ensure the artifacts folder exists
-    - name: Create artifacts folder
-      run: mkdir artifacts
-
-    - name: Pack the NuGet package
-      run: dotnet pack --configuration Debug --output ./artifacts
-      
-      # Find the .nupkg file and push it
-    - name: Push NuGet package
-      env:
-        NUGET_API_KEY: ${{ secrets.PUSH_KEY_COREBREW_APPSTARTER }}
-      run: |
-        $nupkg = Get-ChildItem -Path ./artifacts -Filter *.nupkg | Select-Object -First 1
-        if ($nupkg -eq $null) {
-          throw "No .nupkg file found in ./artifacts"
-        }
-          dotnet nuget push $nupkg.FullName -k $env:NUGET_API_KEY -s https://api.nuget.org/v3/index.json
-      shell: pwsh
