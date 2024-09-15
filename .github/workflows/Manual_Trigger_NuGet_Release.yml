@@ -1,4 +1,4 @@
-name: Publish_develop_branch_NuGetPackage
+name: Manual_Release_NuGetPackage
 
 on:
   workflow_dispatch: 
