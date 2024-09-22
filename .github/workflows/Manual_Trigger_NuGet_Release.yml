@@ -6,8 +6,11 @@ on:
 jobs:
   build-job:
     uses: CoreBrew/github-actions-workflows/.github/workflows/PublishDevNuGetPackage.yml@main # call shared external workflow
+    with:
+      devReleaseStage: alpha  # Pass the input value for devReleaseStage    
     secrets:
       NuGetApiKey: ${{ secrets.UPDATE_ALL_PACKAGES_KEY }}
+
     
     
 
