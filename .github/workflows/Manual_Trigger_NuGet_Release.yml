@@ -4,7 +4,7 @@ on:
   workflow_dispatch: 
 
 jobs:
-  build-job:
+  ManTrig:
     uses: CoreBrew/github-actions-workflows/.github/workflows/PublishDevNuGetPackage.yml@main # call shared external workflow
     with:
       devReleaseStage: alpha  # Pass the input value for devReleaseStage    

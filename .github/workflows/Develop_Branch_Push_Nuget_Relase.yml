@@ -6,7 +6,7 @@ on:
       - test  # Triggers the workflow on pushes to the 'develop' branch
 
 jobs:
-  build-job:
+  BranchPush:
     uses: CoreBrew/github-actions-workflows/.github/workflows/PublishDevNuGetPackage.yml@main # call shared external workflow
     with:
       devReleaseStage: alpha  # Pass the input value for devReleaseStage        
