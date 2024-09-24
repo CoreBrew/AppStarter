@@ -14,12 +14,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefernceSampleProject", "Sa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.CoreBrew.AppStarter", "Test\Test.CoreBrew.AppStarter\Test.CoreBrew.AppStarter.csproj", "{1C3B422C-2611-4054-A0F4-C1A7A2541410}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{3305C6EA-9F55-4FB5-9B1C-0ADC71FB8FC7}"
-	ProjectSection(SolutionItems) = preProject
-		.github\workflows\Develop_Branch_Push_Nuget_Relase.yml = .github\workflows\Develop_Branch_Push_Nuget_Relase.yml
-		.github\workflows\Manual_Trigger_NuGet_Release.yml = .github\workflows\Manual_Trigger_NuGet_Release.yml
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
