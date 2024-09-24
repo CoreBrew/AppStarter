@@ -5,11 +5,9 @@ on:
 
 jobs:
   BranchPush:
-    uses: CoreBrew/github-actions-workflows/.github/workflows/PublishDevNuGetPackage.yml@main # call shared external workflow
+    # call shared external workflow    
+    uses: CoreBrew/github-actions-workflows/.github/workflows/PublishDevNuGetPackage.yml@main 
     with:
       devReleaseStage: alpha  # Pass the input value for devReleaseStage        
     secrets:
       NuGetApiKey: ${{ secrets.UPDATE_ALL_PACKAGES_KEY }}
-    
-    
-
