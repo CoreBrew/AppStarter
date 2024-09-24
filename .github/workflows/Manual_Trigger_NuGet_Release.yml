@@ -1,13 +1,11 @@
-name: Manual_Release_NuGetPackage
+name: manual_trigger_pr_workflow
 
 on:
   workflow_dispatch: 
 
 jobs:
-  build-job:
-    uses: CoreBrew/github-actions-workflows/.github/workflows/PublishDevNuGetPackage.yml@main # call shared external workflow
-    secrets:
-      NuGetApiKey: ${{ secrets.UPDATE_ALL_PACKAGES_KEY }}
-    
-    
-
+  ManTrig:
+    # call shared external workflow    
+    uses: CoreBrew/github-actions-workflows/.github/workflows/dotNet_PrOpenedWorkflow.yml@main
+    with:
+      buildConfiguration: Release    
