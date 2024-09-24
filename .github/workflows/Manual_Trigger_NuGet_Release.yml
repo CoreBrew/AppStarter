@@ -5,7 +5,7 @@ on:
 
 jobs:
   ManTrig:
-    uses: CoreBrew/github-actions-workflows/.github/workflows/PublishDevNuGetPackage.yml@main # call shared external workflow
+    uses: CoreBrew/github-actions-workflows/.github/workflows/dotnet/dotNet_PrOpenedWorkflow.yml@main # call shared external workflow
     with:
       devReleaseStage: alpha  # Pass the input value for devReleaseStage    
     secrets:

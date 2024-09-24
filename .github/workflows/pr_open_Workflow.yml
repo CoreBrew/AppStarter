@@ -1,0 +1,16 @@
+name: Publish_develop_branch_NuGetPackage
+
+on:
+  pull_request:
+    types: [ opened ]      
+#CoreBrew/github-actions-workflows/.github/workflows/dotnet/common/dotNet_BuildSolution.yml@main
+jobs:
+  BranchPush:
+    uses: CoreBrew/github-actions-workflows/.github/workflows/dotnet/dotNet_PrOpenedWorkflow.yml@main # call shared external workflow
+    with:
+      buildConfiguration: Release  # Pass the input value for devReleaseStage        
+    secrets:
+      NuGetApiKey: ${{ secrets.UPDATE_ALL_PACKAGES_KEY }}
+    
+    
+
