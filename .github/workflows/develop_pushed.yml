@@ -1,13 +1,13 @@
-name: pr_open_workflow
+name: develop_pushed
 
 on:
   push:
     branches:
-      - Develop  # This triggers when something is pushed or merged to the named branch
+      - develop  # This triggers when something is pushed or merged to the named branch
 jobs:
   Check:    
     uses: CoreBrew/github-actions-workflows/.github/workflows/dotNet_BranchMerged_Release_Package_Workflow.yml@main 
     with:
-      buildConfiguration: "Debug"  # Pass the input value for devReleaseStage        
+      buildConfiguration: "debug"  # Pass the input value for devReleaseStage        
     secrets:
       NuGetApiKey: ${{ secrets.UPDATE_ALL_PACKAGES_KEY }}      
