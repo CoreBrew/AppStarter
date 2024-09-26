@@ -5,7 +5,7 @@ on:
     branches:
       - develop  # This triggers when something is pushed or merged to the named branch
 jobs:
-  Check:    
+  DevPush:    
     uses: CoreBrew/github-actions-workflows/.github/workflows/dotNet_BranchPush_Release_Package_Workflow.yml@main 
     with:
       buildConfiguration: "debug"  # Pass the input value for devReleaseStage        
