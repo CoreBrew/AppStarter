@@ -9,4 +9,4 @@ jobs:
     # call shared external workflow    
     uses: CoreBrew/github-actions-workflows/.github/workflows/dotNet_PrOpenedWorkflow.yml@main 
     with:
-      buildConfiguration: Release  # Pass the input value for devReleaseStage        
+      buildConfiguration: "Release"  # Pass the input value for devReleaseStage      
