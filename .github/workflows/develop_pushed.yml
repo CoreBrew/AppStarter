@@ -8,6 +8,7 @@ jobs:
   DevPush:    
     uses: CoreBrew/github-actions-workflows/.github/workflows/dotNet_BranchPush_Release_Package_Workflow.yml@main 
     with:
-      buildConfiguration: "debug"  # Pass the input value for devReleaseStage        
+      buildConfiguration: "debug"  # Pass the input value for devReleaseStage
+      releaseStage: "alpha" #enforce NuGet package names must include alpha in the version name
     secrets:
       NuGetApiKey: ${{ secrets.UPDATE_ALL_PACKAGES_KEY }}      

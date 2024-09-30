@@ -9,5 +9,6 @@ jobs:
     uses: CoreBrew/github-actions-workflows/.github/workflows/dotNet_BranchPush_Release_Package_Workflow.yml@main
     with:
       buildConfiguration: "Release"
+      releaseStage: "" #empty release stage, should also be the default
     secrets:
       NuGetApiKey: ${{ secrets.UPDATE_ALL_PACKAGES_KEY }}      
