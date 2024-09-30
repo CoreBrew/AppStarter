@@ -1,0 +1,13 @@
+name: develop_pushed
+
+on:
+  push:
+    branches:
+      - develop  # This triggers when something is pushed or merged to the named branch
+jobs:
+  DevPush:    
+    uses: CoreBrew/github-actions-workflows/.github/workflows/dotNet_BranchPush_Release_Package_Workflow.yml@main 
+    with:
+      buildConfiguration: "debug"  # Pass the input value for devReleaseStage        
+    secrets:
+      NuGetApiKey: ${{ secrets.UPDATE_ALL_PACKAGES_KEY }}      
