@@ -1,0 +1,11 @@
+name: manual_trigger_pr_workflow
+
+on:
+  workflow_dispatch: 
+
+jobs:
+  ManTrig:
+    # call shared external workflow        
+    uses: CoreBrew/github-actions-workflows/.github/workflows/dotNet_BranchPush_Release_Package_Workflow.yml@main
+    with:
+      buildConfiguration: "Release"    
