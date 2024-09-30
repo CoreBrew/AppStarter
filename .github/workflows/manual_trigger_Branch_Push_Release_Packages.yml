@@ -1,4 +1,4 @@
-name: manual_trigger_pr_workflow
+name: manual_trigger_Branch_Push_Release_Packages
 
 on:
   workflow_dispatch: 
