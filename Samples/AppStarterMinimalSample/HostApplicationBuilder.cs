@@ -1,9 +1,8 @@
 ﻿using CoreBrew.AppStarter.Builder;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace WPFSampleApplication;
+namespace AppStarterMinimalSample;
 
-public class AppBuilder : CoreBrewWebAppBuilder
+public class HostApplicationBuilder : CoreBrewWebHostApplicationBuilder
 {
     protected override void ConfigureServices(IServiceCollection services)
     {

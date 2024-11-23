@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -8,11 +7,11 @@ namespace CoreBrew.AppStarter.Builder;
 /// <summary>
 ///     Abstract base class setting up the fundamentals of the WebApp
 /// </summary>
-public abstract class CoreBrewWebAppBuilder : CoreBrewAppBuilder<WebApplicationBuilder>
+public abstract class CoreBrewWebHostApplicationBuilder : CoreBrewHostApplicationBuilderBase<WebApplicationBuilder>
 {
     /// <summary>
     /// </summary>
-    protected CoreBrewWebAppBuilder() : base(WebApplication.CreateBuilder(Environment.GetCommandLineArgs()))
+    protected CoreBrewWebHostApplicationBuilder() : base(WebApplication.CreateBuilder(Environment.GetCommandLineArgs()))
     {
     }
 
@@ -30,7 +29,8 @@ public abstract class CoreBrewWebAppBuilder : CoreBrewAppBuilder<WebApplicationB
         ConfigureConfiguration(ApplicationBuilder.Configuration);
     }
 
-    internal WebApplication Build()
+    /// <inheritdoc />
+    public override IHost Build()
     {
         var app = ApplicationBuilder.Build();
         SetupApp(app);
@@ -55,14 +55,4 @@ public abstract class CoreBrewWebAppBuilder : CoreBrewAppBuilder<WebApplicationB
 
         app.MapControllers();
     }
-    
-
-    /// <summary>
-    /// Configure the configuration/options
-    /// </summary>
-    /// <param name="configurationManager"></param>
-    protected virtual void ConfigureConfiguration(ConfigurationManager configurationManager)
-    {
-        
-    }       
 }

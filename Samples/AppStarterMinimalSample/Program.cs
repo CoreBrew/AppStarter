@@ -1,4 +1,5 @@
 using AppStarterMinimalSample;
 using CoreBrew.AppStarter.Builder;
+using HostApplicationBuilder = AppStarterMinimalSample.HostApplicationBuilder;
 
-CoreBrewApplicationCreator.CreateWebApplication(new AppBuilder()).Run();
+CoreBrewApplicationHostFactory.Build(new HostApplicationBuilder()).Run();

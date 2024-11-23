@@ -1,7 +1,6 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 using CoreBrew.AppStarter.Builder;
+using Microsoft.Extensions.Hosting;
 
 namespace WPFSampleApplication;
 
@@ -13,10 +12,7 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        MainWindow = new MainWindow();
-        MainWindow.Show();        
-        CoreBrewApplicationCreator.CreateWebApplication(new AppBuilder()).RunAsync().GetAwaiter().GetResult();
-
+        var webApp = CoreBrewApplicationHostFactory.Build(new HostApplicationBuilder()).RunAsync();
     }
     
     
