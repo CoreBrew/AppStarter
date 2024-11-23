@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <LangVersion>12</LangVersion>
-        <Version>0.0.5-alpha.1</Version>
+        <Version>0.0.5-alpha.2</Version>
         <Title>CoreBrew.AppStarter</Title>
         <Authors>CoreBrew</Authors>
         <Description>Package containing CoreBrew destilled functionality for making app starting easier</Description>
