@@ -5,7 +5,15 @@ using Microsoft.Extensions.Logging;
 
 namespace CoreBrew.AppStarter.Builder;
 
-public abstract class CoreBrewHostApplicationBuilderBase<T> : ICoreBrewHostApplicationBuilder where T : IHostApplicationBuilder
+public abstract class CoreBrewHostApplicationBuilderBase
+{
+    /// <summary>
+    /// Build the application
+    /// </summary>
+    public abstract IHost Build();    
+}
+
+public abstract class CoreBrewHostApplicationBuilderBase<T> : CoreBrewHostApplicationBuilderBase where T : IHostApplicationBuilder
 {
     /// <summary>
     /// The application builder
@@ -87,7 +95,4 @@ public abstract class CoreBrewHostApplicationBuilderBase<T> : ICoreBrewHostAppli
     {
         
     }
-
-    /// <inheritdoc />
-    public abstract IHost Build();
 }

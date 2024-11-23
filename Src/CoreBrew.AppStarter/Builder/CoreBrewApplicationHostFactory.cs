@@ -9,8 +9,8 @@ public static class CoreBrewApplicationHostFactory
     /// </summary>
     /// <param name="hostApplicationBuilder"></param>
     /// <returns></returns>
-    public static IHost Build(ICoreBrewHostApplicationBuilder hostApplicationBuilder)
+    public static IHost Build(CoreBrewHostApplicationBuilderBase hostApplicationBuilder)
     {
-        return hostApplicationBuilder.Build();;
+        return hostApplicationBuilder.Build();
     }
 }
