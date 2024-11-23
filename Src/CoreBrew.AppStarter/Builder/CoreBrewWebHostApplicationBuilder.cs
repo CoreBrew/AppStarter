@@ -16,17 +16,12 @@ public abstract class CoreBrewWebHostApplicationBuilder : CoreBrewHostApplicatio
     }
 
     /// <inheritdoc />
-    protected override void PreConfigure()
+    protected override void ConfigureServices(IServiceCollection services)
     {
+        base.ConfigureServices(services);
         ApplicationBuilder.Services.AddControllers();
         ApplicationBuilder.Services.AddEndpointsApiExplorer();
-        ApplicationBuilder.Services.AddSwaggerGen();
-    }
-
-    /// <inheritdoc />
-    protected override void Configure()
-    {
-        ConfigureConfiguration(ApplicationBuilder.Configuration);
+        ApplicationBuilder.Services.AddSwaggerGen();        
     }
 
     /// <inheritdoc />
