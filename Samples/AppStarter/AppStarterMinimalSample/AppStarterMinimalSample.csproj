@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Src\CoreBrew.AppStarter\CoreBrew.AppStarter.csproj" />
+      <ProjectReference Include="..\..\..\Src\CoreBrew.AppStarter\CoreBrew.AppStarter.csproj" />
     </ItemGroup>
 
 </Project>

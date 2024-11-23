@@ -27,40 +27,16 @@ public abstract class CoreBrewHostApplicationBuilderBase<T> : CoreBrewHostApplic
     protected CoreBrewHostApplicationBuilderBase(T applicationBuilder)
     {
         ApplicationBuilder = applicationBuilder;
-        PreConfigureInternal();
-        ConfigureInternal();
-        PostConfigureInternal();
-    }
-
-    private void PostConfigureInternal()
-    {
-        PostConfigure();
-    }
-
-    private void PreConfigureInternal()
-    {
-        PreConfigure();
-    }
-
-    private void ConfigureInternal()
-    {
-        ConfigureServices(Services);
-        ConfigureLogging(Services, ApplicationBuilder.Logging);        
         Configure();
     }
 
-    /// <summary>
-    /// Marked virtual to allow inheritors to avoid overriding 
-    /// </summary>
-    protected virtual void PostConfigure(){}
-    /// <summary>
-    /// Marked virtual to allow inheritors to avoid overriding
-    /// </summary>
-    protected virtual void Configure(){}
-    /// <summary>
-    /// Marked virtual to allow inheritors to avoid overriding 
-    /// </summary>
-    protected virtual void PreConfigure(){}
+    private void Configure()
+    {
+        ConfigureServices(Services);
+        ConfigureLogging(Services, ApplicationBuilder.Logging);   
+        ConfigureConfiguration(ApplicationBuilder.Configuration);
+    }
+
 
     /// <summary>
     /// The IOC service collection
