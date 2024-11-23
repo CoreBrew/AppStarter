@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefernceSampleProject", "Sa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.CoreBrew.AppStarter", "Test\Test.CoreBrew.AppStarter\Test.CoreBrew.AppStarter.csproj", "{1C3B422C-2611-4054-A0F4-C1A7A2541410}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFSampleApplication", "Samples\WPFSampleApplication\WPFSampleApplication.csproj", "{91138002-CC76-4A6A-AC34-5A0D8EEDFB7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,7 @@ Global
 		{30C3E82E-F69B-4CA3-ABDB-67390475F1D5} = {E34577B3-8112-4207-85A0-67F7B212D94E}
 		{E1703133-C537-481C-9233-09C2160A5959} = {E34577B3-8112-4207-85A0-67F7B212D94E}
 		{1C3B422C-2611-4054-A0F4-C1A7A2541410} = {329A308E-FABE-40A6-B8B3-E5D9DB72D73A}
+		{91138002-CC76-4A6A-AC34-5A0D8EEDFB7A} = {E34577B3-8112-4207-85A0-67F7B212D94E}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{40589C16-D4A4-4D0B-8FFE-B28D3183DE10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -42,5 +45,9 @@ Global
 		{1C3B422C-2611-4054-A0F4-C1A7A2541410}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C3B422C-2611-4054-A0F4-C1A7A2541410}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C3B422C-2611-4054-A0F4-C1A7A2541410}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91138002-CC76-4A6A-AC34-5A0D8EEDFB7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91138002-CC76-4A6A-AC34-5A0D8EEDFB7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91138002-CC76-4A6A-AC34-5A0D8EEDFB7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91138002-CC76-4A6A-AC34-5A0D8EEDFB7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
