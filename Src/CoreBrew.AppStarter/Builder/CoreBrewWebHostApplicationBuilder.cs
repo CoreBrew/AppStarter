@@ -25,7 +25,7 @@ public abstract class CoreBrewWebHostApplicationBuilder : CoreBrewHostApplicatio
     }
 
     /// <inheritdoc />
-    protected override IHost InternalBuild()
+    protected override IHost BuildApp()
     {
         var app = ApplicationBuilder.Build();
         SetupApp(app);
