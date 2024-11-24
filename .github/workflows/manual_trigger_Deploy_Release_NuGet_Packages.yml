@@ -1,4 +1,4 @@
-name: manual_trigger_Branch_Push_Release_Packages
+name: ManTrig_Deploy_Release_NuGet_Packages
 
 on:
   workflow_dispatch: 

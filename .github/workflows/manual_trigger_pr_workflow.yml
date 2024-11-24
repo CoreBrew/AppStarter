@@ -1,4 +1,4 @@
-name: manual_trigger_pr_workflow
+name: ManTrig_pr_workflow
 
 on:
   workflow_dispatch: 
