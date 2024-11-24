@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using CoreBrew.AppStarter.Options;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -10,10 +11,11 @@ public abstract class CoreBrewHostApplicationBuilderBase
     /// <summary>
     /// Build the application
     /// </summary>
-    public abstract IHost Build();    
+    public abstract IHost Build();
 }
 
-public abstract class CoreBrewHostApplicationBuilderBase<T> : CoreBrewHostApplicationBuilderBase where T : IHostApplicationBuilder
+public abstract class CoreBrewHostApplicationBuilderBase<T> : CoreBrewHostApplicationBuilderBase
+    where T : IHostApplicationBuilder
 {
     /// <summary>
     /// The application builder
@@ -32,9 +34,11 @@ public abstract class CoreBrewHostApplicationBuilderBase<T> : CoreBrewHostApplic
 
     private void Configure()
     {
+        //ApplicationBuilder.Configuration.AddJsonFile("appsettings.json");
+
         ConfigureServices(Services);
-        ConfigureLogging(Services, ApplicationBuilder.Logging);   
-        ConfigureConfiguration(ApplicationBuilder.Configuration);
+        ConfigureLogging(Services, ApplicationBuilder.Logging);
+        ConfigureConfiguration(ApplicationBuilder.Configuration, new CoreBrewOptionsBinder(ApplicationBuilder));
     }
 
 
@@ -42,14 +46,14 @@ public abstract class CoreBrewHostApplicationBuilderBase<T> : CoreBrewHostApplic
     /// The IOC service collection
     /// </summary>
     public IServiceCollection Services => ApplicationBuilder.Services;
-    
-    
+
+
     /// <summary>
     /// Configures base logging
     /// </summary>
     /// <param name="services"></param>
     /// <param name="loggingBuilder"></param>
-    protected virtual void ConfigureLogging(IServiceCollection services,ILoggingBuilder loggingBuilder)
+    protected virtual void ConfigureLogging(IServiceCollection services, ILoggingBuilder loggingBuilder)
     {
         services.AddLogging();
     }
@@ -60,15 +64,15 @@ public abstract class CoreBrewHostApplicationBuilderBase<T> : CoreBrewHostApplic
     /// <param name="services"></param>
     protected virtual void ConfigureServices(IServiceCollection services)
     {
-        
     }
-    
+
     /// <summary>
     /// Configure the configuration/options
     /// </summary>
     /// <param name="configurationManager"></param>
-    protected virtual void ConfigureConfiguration(IConfigurationManager configurationManager)
+    /// <param name="optionsBinder"></param>
+    protected virtual void ConfigureConfiguration(IConfigurationManager configurationManager,
+        CoreBrewOptionsBinder optionsBinder)
     {
-        
     }
 }

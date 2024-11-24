@@ -2,7 +2,7 @@
 
 namespace AppStarterMinimalSample;
 
-public class HostApplicationBuilder : CoreBrewWebHostApplicationBuilder
+public class HostApplicationBuilder : CoreBrewHostApplicationBuilder
 {
     protected override void ConfigureServices(IServiceCollection services)
     {
