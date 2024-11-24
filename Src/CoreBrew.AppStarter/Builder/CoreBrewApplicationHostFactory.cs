@@ -11,6 +11,7 @@ public static class CoreBrewApplicationHostFactory
     /// <returns></returns>
     public static IHost Build(CoreBrewHostApplicationBuilderBase hostApplicationBuilder)
     {
-        return hostApplicationBuilder.Build();
+        var host = hostApplicationBuilder.Build();
+        return host;
     }
 }

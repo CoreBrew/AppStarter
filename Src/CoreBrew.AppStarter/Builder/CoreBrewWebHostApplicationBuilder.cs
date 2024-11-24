@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -25,7 +25,7 @@ public abstract class CoreBrewWebHostApplicationBuilder : CoreBrewHostApplicatio
     }
 
     /// <inheritdoc />
-    public override IHost Build()
+    protected override IHost InternalBuild()
     {
         var app = ApplicationBuilder.Build();
         SetupApp(app);

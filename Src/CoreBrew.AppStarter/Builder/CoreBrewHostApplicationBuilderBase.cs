@@ -1,4 +1,4 @@
-﻿using CoreBrew.AppStarter.Options;
+using CoreBrew.AppStarter.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,10 +8,27 @@ namespace CoreBrew.AppStarter.Builder;
 
 public abstract class CoreBrewHostApplicationBuilderBase
 {
+    protected abstract IHost InternalBuild();    
     /// <summary>
     /// Build the application
     /// </summary>
-    public abstract IHost Build();
+    public IHost Build()
+    {
+        var app = InternalBuild();
+        var logger = app.Services.GetRequiredService<ILogger<IHost>>();
+        logger.LogInformation("Host application built.");
+        logger.LogInformation($"Application starting, current user is: {Environment.UserName}");
+
+        OnAfterBuilt();
+        return app;
+    }
+
+    /// <summary>
+    /// After application has been built. allow
+    /// </summary>
+    public virtual void OnAfterBuilt()
+    {
+    }
 }
 
 public abstract class CoreBrewHostApplicationBuilderBase<T> : CoreBrewHostApplicationBuilderBase
@@ -34,8 +51,6 @@ public abstract class CoreBrewHostApplicationBuilderBase<T> : CoreBrewHostApplic
 
     private void Configure()
     {
-        //ApplicationBuilder.Configuration.AddJsonFile("appsettings.json");
-
         ConfigureServices(Services);
         ConfigureLogging(Services, ApplicationBuilder.Logging);
         ConfigureConfiguration(ApplicationBuilder.Configuration, new CoreBrewOptionsBinder(ApplicationBuilder));
