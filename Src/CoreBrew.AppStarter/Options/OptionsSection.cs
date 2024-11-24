@@ -8,5 +8,5 @@ public class OptionsSection
     /// <summary>
     /// The section name to load from the option file
     /// </summary>
-    public virtual string SectionName => GetType().Name;
+    public virtual string SectionName() => GetType().Name;
 }
