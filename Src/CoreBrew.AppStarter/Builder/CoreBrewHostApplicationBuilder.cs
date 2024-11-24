@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace CoreBrew.AppStarter.Builder;
 
@@ -12,9 +12,9 @@ public abstract class CoreBrewHostApplicationBuilder : CoreBrewHostApplicationBu
     }
 
     /// <inheritdoc />
-    public override IHost Build()
+    protected override IHost BuildApp()
     {
         var app = ApplicationBuilder.Build();
-        return app;        
+        return app;
     }
 }
