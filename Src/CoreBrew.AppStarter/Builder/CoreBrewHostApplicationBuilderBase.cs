@@ -7,15 +7,53 @@ using Microsoft.Extensions.Logging;
 namespace CoreBrew.AppStarter.Builder;
 
 /// <summary>
+/// Wrapper class for a <see cref="CoreBrewHostApplicationAddIn"/> collection
+/// </summary>
+public class AddInCollection
+{
+    private readonly List<CoreBrewHostApplicationAddIn> _addIns = [];
+
+    /// <summary>
+    /// Adds an addin
+    /// </summary>
+    /// <param name="addIn"></param>
+    public void Add(CoreBrewHostApplicationAddIn addIn)
+    {
+        _addIns.Add(addIn);
+    }
+
+    /// <summary>
+    /// Call the configure add in for all add ins
+    /// </summary>
+    /// <param name="optionsBinder"></param>
+    public void ConfigureAddIns(CoreBrewOptionsBinder optionsBinder)
+    {
+        foreach (var addIn in _addIns)
+        {
+            addIn.ConfigureAddIn(optionsBinder, this);
+        }
+    }
+}
+
+/// <summary>
 /// Interface for the basic calls shared by both the actual builder class
 /// and any CoreBrew application add ins 
 /// </summary>
 public abstract class CoreBrewHostApplicationAddIn
 {
     /// <summary>
+    /// DI the <see cref="IHostApplicationBuilder"/>
+    /// </summary>
+    /// <param name="applicationBuilder"></param>
+    protected CoreBrewHostApplicationAddIn(IHostApplicationBuilder applicationBuilder)
+    {
+        ApplicationBuilder = applicationBuilder;
+    }
+
+    /// <summary>
     /// The application builder
     /// </summary>
-    protected IHostApplicationBuilder ApplicationBuilder { get; init; } = null!;
+    protected IHostApplicationBuilder ApplicationBuilder { get; init; }
 
     /// <summary>
     /// The IOC service collection
@@ -26,24 +64,37 @@ public abstract class CoreBrewHostApplicationAddIn
     /// Configures services
     /// </summary>
     /// <param name="services"></param>
-    protected abstract void ConfigureServices(IServiceCollection services);
+    protected virtual void ConfigureServices(IServiceCollection services)
+    {
+    }
 
     /// <summary>
     /// Configure the configuration/options
     /// </summary>
     /// <param name="configurationManager"></param>
     /// <param name="optionsBinder"></param>
-    protected abstract void ConfigureConfiguration(IConfigurationManager configurationManager,
-        CoreBrewOptionsBinder optionsBinder);
+    protected virtual void ConfigureConfiguration(IConfigurationManager configurationManager,
+        CoreBrewOptionsBinder optionsBinder)
+    {
+    }
+
+    /// <summary>
+    /// Add AddIns to the IOC container 
+    /// </summary>
+    protected virtual void AddAddIns(AddInCollection addIns, IHostApplicationBuilder builder)
+    {
+    }
 
     /// <summary>
     /// Call the required configuration and option add ins to the IOC container
     /// </summary>
     /// <param name="optionsBinder"></param>
-    public void ConfigureAddIn(CoreBrewOptionsBinder optionsBinder)
+    /// <param name="addInCollection"></param>
+    public void ConfigureAddIn(CoreBrewOptionsBinder optionsBinder, AddInCollection addInCollection)
     {
-        ConfigureConfiguration(ApplicationBuilder.Configuration,optionsBinder);
-        this.ConfigureServices(ApplicationBuilder.Services);        
+        ConfigureConfiguration(ApplicationBuilder.Configuration, optionsBinder);
+        ConfigureServices(ApplicationBuilder.Services);
+        AddAddIns(addInCollection,ApplicationBuilder);
     }
 }
 
@@ -53,14 +104,14 @@ public abstract class CoreBrewHostApplicationBuilderBase : CoreBrewHostApplicati
     private ILogger<IHost> _logger = null!;
     private IHostApplicationLifetime _hostApplicationLifetime = null!;
     private IHostEnvironment _hostEnvironment = null!;
-    private readonly List<CoreBrewHostApplicationAddIn> _addIns = [];
+    private readonly AddInCollection _addIns = new();
     private readonly CoreBrewOptionsBinder _coreBrewOptionsBinder;
 
     /// <summary>
     /// Construct the most basic app
     /// </summary>
     /// <param name="applicationBuilder"></param>
-    protected CoreBrewHostApplicationBuilderBase(IHostApplicationBuilder applicationBuilder)
+    protected CoreBrewHostApplicationBuilderBase(IHostApplicationBuilder applicationBuilder) : base(applicationBuilder)
     {
         ApplicationBuilder = applicationBuilder;
         _coreBrewOptionsBinder = new CoreBrewOptionsBinder(ApplicationBuilder);
@@ -70,11 +121,8 @@ public abstract class CoreBrewHostApplicationBuilderBase : CoreBrewHostApplicati
     private void Configure()
     {
         ConfigureLogging(Services, ApplicationBuilder.Logging);
-        ConfigureAddIn(_coreBrewOptionsBinder);
-        foreach (var addIn in _addIns)
-        {
-            addIn.ConfigureAddIn(_coreBrewOptionsBinder);
-        }
+        ConfigureAddIn(_coreBrewOptionsBinder, _addIns);
+        _addIns.ConfigureAddIns(_coreBrewOptionsBinder);
     }
 
     /// <summary>
@@ -112,7 +160,7 @@ public abstract class CoreBrewHostApplicationBuilderBase : CoreBrewHostApplicati
         CoreBrewOptionsBinder optionsBinder)
     {
     }
-    
+
     /// <summary>
     /// Configures base logging
     /// </summary>
