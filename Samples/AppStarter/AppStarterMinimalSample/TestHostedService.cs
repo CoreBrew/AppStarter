@@ -1,4 +1,6 @@
-﻿using CoreBrew.AppStarter.HostedService;
+﻿using AppStarterMinimalSample.HostAppExtensionTest;
+using AppStarterMinimalSample.HostAppExtensionTest.HostAppExtensionTestLevel2;
+using CoreBrew.AppStarter.HostedService;
 
 namespace AppStarterMinimalSample;
 
@@ -6,12 +8,15 @@ public class TestHostedService : CoreBrewHostedServiceBase
 {
     private readonly ILogger<CoreBrewHostedServiceBase> _logger;
 
-    public TestHostedService(IHostApplicationLifetime hostApplicationLifetime, ILogger<TestHostedService> logger) :
+    public TestHostedService(IHostApplicationLifetime hostApplicationLifetime, ILogger<TestHostedService> logger,
+        MyServiceClass myServiceClass, MyOtherServiceClass myOtherServiceClass) :
         base(hostApplicationLifetime, logger)
     {
         _logger = logger;
         TargetCycleTime = TimeSpan.FromSeconds(5);
         ShutdownOnException = false;
+        myServiceClass.DoSomething();
+        myOtherServiceClass.DoSomething();
     }
 
     protected override async Task Execute()
