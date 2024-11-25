@@ -7,21 +7,75 @@ using Microsoft.Extensions.Logging;
 namespace CoreBrew.AppStarter.Builder;
 
 /// <summary>
-/// Handles the most basic stuff for HostApplication building. But must still rely on having the <see cref="BuildApp"/>
-/// function called from the generic class <see cref="CoreBrewHostApplicationBuilderBase{T}"/>
+/// Interface for the basic calls shared by both the actual builder class
+/// and any CoreBrew application add ins 
 /// </summary>
-public abstract class CoreBrewHostApplicationBuilderBase
+public abstract class CoreBrewHostApplicationAddIn
+{
+    /// <summary>
+    /// The application builder
+    /// </summary>
+    protected IHostApplicationBuilder ApplicationBuilder { get; init; } = null!;
+
+    /// <summary>
+    /// The IOC service collection
+    /// </summary>
+    protected IServiceCollection Services => ApplicationBuilder.Services;
+
+    /// <summary>
+    /// Configures services
+    /// </summary>
+    /// <param name="services"></param>
+    protected abstract void ConfigureServices(IServiceCollection services);
+
+    /// <summary>
+    /// Configure the configuration/options
+    /// </summary>
+    /// <param name="configurationManager"></param>
+    /// <param name="optionsBinder"></param>
+    protected abstract void ConfigureConfiguration(IConfigurationManager configurationManager,
+        CoreBrewOptionsBinder optionsBinder);
+
+    /// <summary>
+    /// Call the required configuration and option add ins to the IOC container
+    /// </summary>
+    /// <param name="optionsBinder"></param>
+    public void ConfigureAddIn(CoreBrewOptionsBinder optionsBinder)
+    {
+        ConfigureConfiguration(ApplicationBuilder.Configuration,optionsBinder);
+        this.ConfigureServices(ApplicationBuilder.Services);        
+    }
+}
+
+public abstract class CoreBrewHostApplicationBuilderBase : CoreBrewHostApplicationAddIn
 {
     private IHost _app = null!;
     private ILogger<IHost> _logger = null!;
     private IHostApplicationLifetime _hostApplicationLifetime = null!;
     private IHostEnvironment _hostEnvironment = null!;
+    private readonly List<CoreBrewHostApplicationAddIn> _addIns = [];
+    private readonly CoreBrewOptionsBinder _coreBrewOptionsBinder;
 
     /// <summary>
-    /// Call the abstract function that inheritors must implement, and build the specific host application type
+    /// Construct the most basic app
     /// </summary>
-    /// <returns></returns>
-    protected abstract IHost BuildApp();
+    /// <param name="applicationBuilder"></param>
+    protected CoreBrewHostApplicationBuilderBase(IHostApplicationBuilder applicationBuilder)
+    {
+        ApplicationBuilder = applicationBuilder;
+        _coreBrewOptionsBinder = new CoreBrewOptionsBinder(ApplicationBuilder);
+        Configure();
+    }
+
+    private void Configure()
+    {
+        ConfigureLogging(Services, ApplicationBuilder.Logging);
+        ConfigureAddIn(_coreBrewOptionsBinder);
+        foreach (var addIn in _addIns)
+        {
+            addIn.ConfigureAddIn(_coreBrewOptionsBinder);
+        }
+    }
 
     /// <summary>
     /// Build the application
@@ -39,6 +93,34 @@ public abstract class CoreBrewHostApplicationBuilderBase
 
         OnAfterBuilt();
         return _app;
+    }
+
+    /// <summary>
+    /// Call the abstract function that inheritors must implement, and build the specific host application type
+    /// </summary>
+    /// <returns></returns>
+    protected abstract IHost BuildApp();
+
+
+    /// <inheritdoc />
+    protected override void ConfigureServices(IServiceCollection services)
+    {
+    }
+
+    /// <inheritdoc />
+    protected override void ConfigureConfiguration(IConfigurationManager configurationManager,
+        CoreBrewOptionsBinder optionsBinder)
+    {
+    }
+    
+    /// <summary>
+    /// Configures base logging
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="loggingBuilder"></param>
+    protected virtual void ConfigureLogging(IServiceCollection services, ILoggingBuilder loggingBuilder)
+    {
+        services.AddLogging();
     }
 
     /// <summary>
@@ -67,70 +149,10 @@ public abstract class CoreBrewHostApplicationBuilderBase
     }
 
     /// <summary>
-    /// After application has been built. allow
+    /// After application has been built. allow to get a hook that allows to call
+    /// out any required service classes and other misc actions that needs to be done before calling run/runasync
     /// </summary>
-    public virtual void OnAfterBuilt()
-    {
-    }
-}
-
-public abstract class CoreBrewHostApplicationBuilderBase<T> : CoreBrewHostApplicationBuilderBase
-    where T : IHostApplicationBuilder
-{
-    /// <summary>
-    /// The application builder
-    /// </summary>
-    protected readonly T ApplicationBuilder;
-
-    /// <summary>
-    /// Construct the most basic app
-    /// </summary>
-    /// <param name="applicationBuilder"></param>
-    protected CoreBrewHostApplicationBuilderBase(T applicationBuilder)
-    {
-        ApplicationBuilder = applicationBuilder;
-        Configure();
-    }
-
-    private void Configure()
-    {
-        ConfigureServices(Services);
-        ConfigureLogging(Services, ApplicationBuilder.Logging);
-        ConfigureConfiguration(ApplicationBuilder.Configuration, new CoreBrewOptionsBinder(ApplicationBuilder));
-    }
-
-
-    /// <summary>
-    /// The IOC service collection
-    /// </summary>
-    public IServiceCollection Services => ApplicationBuilder.Services;
-
-
-    /// <summary>
-    /// Configures base logging
-    /// </summary>
-    /// <param name="services"></param>
-    /// <param name="loggingBuilder"></param>
-    protected virtual void ConfigureLogging(IServiceCollection services, ILoggingBuilder loggingBuilder)
-    {
-        services.AddLogging();
-    }
-
-    /// <summary>
-    /// Configures services
-    /// </summary>
-    /// <param name="services"></param>
-    protected virtual void ConfigureServices(IServiceCollection services)
-    {
-    }
-
-    /// <summary>
-    /// Configure the configuration/options
-    /// </summary>
-    /// <param name="configurationManager"></param>
-    /// <param name="optionsBinder"></param>
-    protected virtual void ConfigureConfiguration(IConfigurationManager configurationManager,
-        CoreBrewOptionsBinder optionsBinder)
+    protected virtual void OnAfterBuilt()
     {
     }
 }
