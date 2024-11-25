@@ -1,4 +1,4 @@
-﻿using AppStarterMinimalSample.AddInTest;
+﻿using AppStarterMinimalSample.HostAppExtensionTest;
 using CoreBrew.AppStarter.Builder;
 using CoreBrew.AppStarter.Options;
 
@@ -18,9 +18,9 @@ public class AppBuilder : CoreBrewHostApplicationBuilder
         optionsBinder.AddOptions<TestOption>();
     }
 
-    protected override void AddAddIns(AddInCollection addIns, IHostApplicationBuilder builder)
+    protected override void AddHostAppExtensions(HostApplicationExtensionRegistry hostApplicationExtensionRegistry)
     {
-        base.AddAddIns(addIns,builder);
-        addIns.Add(new MyAddIn(builder));
+        base.AddHostAppExtensions(hostApplicationExtensionRegistry);
+        hostApplicationExtensionRegistry.Register<MyExtension>();
     }
 }

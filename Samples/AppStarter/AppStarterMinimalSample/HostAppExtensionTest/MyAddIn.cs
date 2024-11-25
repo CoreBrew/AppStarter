@@ -1,11 +1,11 @@
-﻿using AppStarterMinimalSample.AddInTest.AddInFromAddIn;
+﻿using AppStarterMinimalSample.HostAppExtensionTest.HostAppExtensionTestLevel2;
 using CoreBrew.AppStarter.Builder;
 using CoreBrew.AppStarter.Options;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace AppStarterMinimalSample.AddInTest;
+namespace AppStarterMinimalSample.HostAppExtensionTest;
 
-public class MyAddIn(IHostApplicationBuilder applicationBuilder) : CoreBrewHostApplicationAddIn(applicationBuilder)
+public class MyExtension : CoreBrewHostApplicationExtension
 {
     protected override void ConfigureServices(IServiceCollection services)
     {
@@ -18,9 +18,9 @@ public class MyAddIn(IHostApplicationBuilder applicationBuilder) : CoreBrewHostA
         optionsBinder.AddOptions<MyAddInOption>();
     }
 
-    protected override void AddAddIns(AddInCollection addIns, IHostApplicationBuilder builder)
+    protected override void AddHostAppExtensions(HostApplicationExtensionRegistry hostApplicationExtensionRegistry)
     {
-        base.AddAddIns(addIns, builder);
-        addIns.Add(new MyAddInAddedAddIn(builder));
+        base.AddHostAppExtensions(hostApplicationExtensionRegistry);
+        hostApplicationExtensionRegistry.Register<MyExtensionAddedExtension>();
     }
 }

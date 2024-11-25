@@ -7,11 +7,11 @@ namespace CoreBrew.AppStarter.Builder;
 /// <summary>
 ///     Abstract base class setting up the fundamentals of the WebApp
 /// </summary>
-public abstract class CoreBrewWebHostApplicationBuilder : CoreBrewHostApplicationBuilderBase
+public abstract class WebCoreBrewHostApplicationBuilder : CoreBrewHostApplicationBuilderBase
 {
     /// <summary>
     /// </summary>
-    protected CoreBrewWebHostApplicationBuilder() : base(WebApplication.CreateBuilder(Environment.GetCommandLineArgs()))
+    protected WebCoreBrewHostApplicationBuilder() : base(WebApplication.CreateBuilder(Environment.GetCommandLineArgs()))
     {
     }
 

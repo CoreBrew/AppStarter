@@ -1,6 +1,6 @@
 ﻿using CoreBrew.AppStarter.Options;
 
-namespace AppStarterMinimalSample.AddInTest.AddInFromAddIn;
+namespace AppStarterMinimalSample.HostAppExtensionTest.HostAppExtensionTestLevel2;
 
 public class MyOtherAddInOption : OptionsSection
 {

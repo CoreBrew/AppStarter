@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace WPFSampleApplication;
 
-public class HostApplicationBuilder : CoreBrewHostApplicationBuilder
+public class CoreBrewHostApplicationBuilder : CoreBrew.AppStarter.Builder.CoreBrewHostApplicationBuilder
 {
     protected override void ConfigureServices(IServiceCollection services)
     {

@@ -1,5 +1,5 @@
-﻿using AppStarterMinimalSample.AddInTest;
-using AppStarterMinimalSample.AddInTest.AddInFromAddIn;
+﻿using AppStarterMinimalSample.HostAppExtensionTest;
+using AppStarterMinimalSample.HostAppExtensionTest.HostAppExtensionTestLevel2;
 using CoreBrew.AppStarter.HostedService;
 
 namespace AppStarterMinimalSample;

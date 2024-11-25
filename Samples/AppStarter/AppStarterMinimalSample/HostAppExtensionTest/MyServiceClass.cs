@@ -1,4 +1,4 @@
-﻿namespace AppStarterMinimalSample.AddInTest;
+﻿namespace AppStarterMinimalSample.HostAppExtensionTest;
 
 public class MyServiceClass
 {

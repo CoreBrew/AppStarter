@@ -3,7 +3,7 @@ using CoreBrew.AppStarter.Options;
 
 namespace AppStarterWebApplication;
 
-public class AppBuilder : CoreBrewWebHostApplicationBuilder
+public class AppBuilder : WebCoreBrewHostApplicationBuilder
 {
     protected override void ConfigureServices(IServiceCollection services)
     {

@@ -7,31 +7,52 @@ using Microsoft.Extensions.Logging;
 namespace CoreBrew.AppStarter.Builder;
 
 /// <summary>
-/// Wrapper class for a <see cref="CoreBrewHostApplicationAddIn"/> collection
+/// Wrapper class for a <see cref="CoreBrewHostApplicationExtension"/> collection
 /// </summary>
-public class AddInCollection
+public class HostApplicationExtensionRegistry
 {
-    private readonly List<CoreBrewHostApplicationAddIn> _addIns = [];
+    private readonly IHostApplicationBuilder _builder;
+    private readonly CoreBrewOptionsBinder _optionsBinder;
+    private readonly HashSet<Type> _hostApplicationExtensionTypes = [];
 
-    /// <summary>
-    /// Adds an addin
-    /// </summary>
-    /// <param name="addIn"></param>
-    public void Add(CoreBrewHostApplicationAddIn addIn)
+    public HostApplicationExtensionRegistry(IHostApplicationBuilder builder, CoreBrewOptionsBinder optionsBinder)
     {
-        _addIns.Add(addIn);
+        _builder = builder;
+        _optionsBinder = optionsBinder;
+        _hostApplicationExtensionTypes.Add(builder.GetType());
     }
 
     /// <summary>
-    /// Call the configure add in for all add ins
+    /// Register a HostApplication add in, and ensure its only done once per HostApplication
     /// </summary>
-    /// <param name="optionsBinder"></param>
-    public void ConfigureAddIns(CoreBrewOptionsBinder optionsBinder)
+    /// <typeparam name="T"></typeparam>
+    public void Register<T>() where T : CoreBrewHostApplicationExtension, new()
     {
-        foreach (var addIn in _addIns)
+        if (!_hostApplicationExtensionTypes.Add(typeof(T))) return;
+        var hostAppExtension = new T
         {
-            addIn.ConfigureAddIn(optionsBinder, this);
-        }
+            ApplicationBuilder = _builder,
+            OptionsBinder = _optionsBinder
+        };
+        hostAppExtension.ConfigureHostAppExtension(this);
+    }
+    
+    /// <summary>
+    /// Register a HostApplication add in by type, and ensure it's only done once per HostApplication
+    /// </summary>
+    /// <param name="type">The type of the add-in to register.</param>
+    public void Register(Type type)
+    {
+        if (!typeof(CoreBrewHostApplicationExtension).IsAssignableFrom(type))
+            throw new ArgumentException($"Type {type.FullName} must inherit from {nameof(CoreBrewHostApplicationExtension)}.", nameof(type));
+    
+        if (type.GetConstructor(Type.EmptyTypes) == null)
+            throw new ArgumentException($"Type {type.FullName} must have a parameterless constructor.", nameof(type));
+    
+        // Use reflection to invoke the generic method
+        var method = GetType().GetMethod(nameof(Register), Type.EmptyTypes);
+        var genericMethod = method?.MakeGenericMethod(type);
+        genericMethod?.Invoke(this, null);
     }
 }
 
@@ -39,21 +60,18 @@ public class AddInCollection
 /// Interface for the basic calls shared by both the actual builder class
 /// and any CoreBrew application add ins 
 /// </summary>
-public abstract class CoreBrewHostApplicationAddIn
+public abstract class CoreBrewHostApplicationExtension
 {
     /// <summary>
-    /// DI the <see cref="IHostApplicationBuilder"/>
+    /// The OptionsBinder
     /// </summary>
-    /// <param name="applicationBuilder"></param>
-    protected CoreBrewHostApplicationAddIn(IHostApplicationBuilder applicationBuilder)
-    {
-        ApplicationBuilder = applicationBuilder;
-    }
+    public CoreBrewOptionsBinder OptionsBinder { get; init; } = null!;
+
 
     /// <summary>
     /// The application builder
     /// </summary>
-    protected IHostApplicationBuilder ApplicationBuilder { get; init; }
+    public IHostApplicationBuilder ApplicationBuilder { get; init; } = null!;
 
     /// <summary>
     /// The IOC service collection
@@ -79,50 +97,49 @@ public abstract class CoreBrewHostApplicationAddIn
     }
 
     /// <summary>
-    /// Add AddIns to the IOC container 
+    /// Add host app extensions to the IOC container 
     /// </summary>
-    protected virtual void AddAddIns(AddInCollection addIns, IHostApplicationBuilder builder)
+    /// <param name="hostApplicationExtensionRegistry"></param>
+    protected virtual void AddHostAppExtensions(HostApplicationExtensionRegistry hostApplicationExtensionRegistry)
     {
     }
 
     /// <summary>
     /// Call the required configuration and option add ins to the IOC container
     /// </summary>
-    /// <param name="optionsBinder"></param>
-    /// <param name="addInCollection"></param>
-    public void ConfigureAddIn(CoreBrewOptionsBinder optionsBinder, AddInCollection addInCollection)
+    /// <param name="hostApplicationExtensionRegistry"></param>
+    public void ConfigureHostAppExtension(HostApplicationExtensionRegistry hostApplicationExtensionRegistry)
     {
-        ConfigureConfiguration(ApplicationBuilder.Configuration, optionsBinder);
+        ConfigureConfiguration(ApplicationBuilder.Configuration, OptionsBinder);
         ConfigureServices(ApplicationBuilder.Services);
-        AddAddIns(addInCollection,ApplicationBuilder);
+        AddHostAppExtensions(hostApplicationExtensionRegistry);
     }
 }
 
-public abstract class CoreBrewHostApplicationBuilderBase : CoreBrewHostApplicationAddIn
+public abstract class CoreBrewHostApplicationBuilderBase : CoreBrewHostApplicationExtension
 {
     private IHost _app = null!;
     private ILogger<IHost> _logger = null!;
     private IHostApplicationLifetime _hostApplicationLifetime = null!;
     private IHostEnvironment _hostEnvironment = null!;
-    private readonly AddInCollection _addIns = new();
-    private readonly CoreBrewOptionsBinder _coreBrewOptionsBinder;
+    private readonly HostApplicationExtensionRegistry _hostApplicationExtensionRegistry;
 
     /// <summary>
     /// Construct the most basic app
     /// </summary>
     /// <param name="applicationBuilder"></param>
-    protected CoreBrewHostApplicationBuilderBase(IHostApplicationBuilder applicationBuilder) : base(applicationBuilder)
+    protected CoreBrewHostApplicationBuilderBase(IHostApplicationBuilder applicationBuilder)
     {
         ApplicationBuilder = applicationBuilder;
-        _coreBrewOptionsBinder = new CoreBrewOptionsBinder(ApplicationBuilder);
+        OptionsBinder = new CoreBrewOptionsBinder(ApplicationBuilder);
+        _hostApplicationExtensionRegistry = new HostApplicationExtensionRegistry(applicationBuilder,OptionsBinder);
         Configure();
     }
 
     private void Configure()
     {
         ConfigureLogging(Services, ApplicationBuilder.Logging);
-        ConfigureAddIn(_coreBrewOptionsBinder, _addIns);
-        _addIns.ConfigureAddIns(_coreBrewOptionsBinder);
+        ConfigureHostAppExtension(_hostApplicationExtensionRegistry);
     }
 
     /// <summary>
@@ -134,11 +151,9 @@ public abstract class CoreBrewHostApplicationBuilderBase : CoreBrewHostApplicati
         _logger = _app.Services.GetRequiredService<ILogger<IHost>>();
         _hostApplicationLifetime = _app.Services.GetRequiredService<IHostApplicationLifetime>();
         _hostEnvironment = _app.Services.GetRequiredService<IHostEnvironment>();
-
-        LogApplicationStart(_logger);
-
         _hostApplicationLifetime.ApplicationStopping.Register(HostApplicationStopping);
-
+        
+        LogApplicationStart(_logger);
         OnAfterBuilt();
         return _app;
     }
@@ -168,7 +183,6 @@ public abstract class CoreBrewHostApplicationBuilderBase : CoreBrewHostApplicati
     /// <param name="loggingBuilder"></param>
     protected virtual void ConfigureLogging(IServiceCollection services, ILoggingBuilder loggingBuilder)
     {
-        services.AddLogging();
     }
 
     /// <summary>

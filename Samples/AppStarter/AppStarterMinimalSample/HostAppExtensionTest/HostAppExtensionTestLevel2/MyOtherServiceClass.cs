@@ -1,4 +1,4 @@
-﻿namespace AppStarterMinimalSample.AddInTest.AddInFromAddIn;
+﻿namespace AppStarterMinimalSample.HostAppExtensionTest.HostAppExtensionTestLevel2;
 
 public class MyOtherServiceClass
 {

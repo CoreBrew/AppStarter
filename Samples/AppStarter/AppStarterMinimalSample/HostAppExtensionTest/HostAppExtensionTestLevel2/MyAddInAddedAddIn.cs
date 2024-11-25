@@ -2,9 +2,9 @@
 using CoreBrew.AppStarter.Options;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace AppStarterMinimalSample.AddInTest.AddInFromAddIn;
+namespace AppStarterMinimalSample.HostAppExtensionTest.HostAppExtensionTestLevel2;
 
-public class MyAddInAddedAddIn(IHostApplicationBuilder applicationBuilder) : CoreBrewHostApplicationAddIn(applicationBuilder)
+public class MyExtensionAddedExtension : CoreBrewHostApplicationExtension
 {
     protected override void ConfigureServices(IServiceCollection services)
     {
