@@ -18,7 +18,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefernceSampleProject", "Sa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFSampleApplication", "Samples\AppStarter\WPFSampleApplication\WPFSampleApplication.csproj", "{4D95F146-217D-4664-AD74-9E7DEA256878}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppStarterWebApplication", "AppStarterWebApplication\AppStarterWebApplication.csproj", "{56C41A9B-E6DE-4AA4-B142-C4DC25EDDFAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppStarterWebApplication", "Samples\AppStarter\AppStarterWebApplication\AppStarterWebApplication.csproj", "{56C41A9B-E6DE-4AA4-B142-C4DC25EDDFAB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{26E0FF54-7A77-453B-85F1-D315FDDE1CBF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Serilog", "Serilog", "{BDAF021E-4592-4656-B84E-71CB39AAF291}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreBrew.AppStarter.Logging.Serilog", "Src\CoreBrew.AppStarter.Logging.Serilog\CoreBrew.AppStarter.Logging.Serilog.csproj", "{22EA8FD1-B9C6-4BDF-B2EB-92E66824D610}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,9 @@ Global
 		{DCF132BC-95DD-4755-9EF4-3BF208654757} = {DFEDEC8B-9F10-4EE2-BD7B-D97816C83BE9}
 		{4D95F146-217D-4664-AD74-9E7DEA256878} = {DFEDEC8B-9F10-4EE2-BD7B-D97816C83BE9}
 		{56C41A9B-E6DE-4AA4-B142-C4DC25EDDFAB} = {DFEDEC8B-9F10-4EE2-BD7B-D97816C83BE9}
+		{26E0FF54-7A77-453B-85F1-D315FDDE1CBF} = {E34577B3-8112-4207-85A0-67F7B212D94E}
+		{BDAF021E-4592-4656-B84E-71CB39AAF291} = {26E0FF54-7A77-453B-85F1-D315FDDE1CBF}
+		{22EA8FD1-B9C6-4BDF-B2EB-92E66824D610} = {C0C1A48D-106D-4E7D-8AB6-142B8ECCF832}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{40589C16-D4A4-4D0B-8FFE-B28D3183DE10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -59,5 +68,9 @@ Global
 		{56C41A9B-E6DE-4AA4-B142-C4DC25EDDFAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56C41A9B-E6DE-4AA4-B142-C4DC25EDDFAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56C41A9B-E6DE-4AA4-B142-C4DC25EDDFAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22EA8FD1-B9C6-4BDF-B2EB-92E66824D610}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22EA8FD1-B9C6-4BDF-B2EB-92E66824D610}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22EA8FD1-B9C6-4BDF-B2EB-92E66824D610}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22EA8FD1-B9C6-4BDF-B2EB-92E66824D610}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

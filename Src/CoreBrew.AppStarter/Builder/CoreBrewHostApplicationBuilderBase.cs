@@ -97,7 +97,8 @@ public abstract class CoreBrewHostApplicationExtension
     }
 
     /// <summary>
-    /// Add host app extensions to the IOC container 
+    /// Add host app extensions to the IOC container. This is where you would add in any custom
+    /// extensions to The host application that inherits from <see cref="CoreBrewHostApplicationExtension"/> 
     /// </summary>
     /// <param name="hostApplicationExtensionRegistry"></param>
     protected virtual void AddHostAppExtensions(HostApplicationExtensionRegistry hostApplicationExtensionRegistry)
@@ -114,6 +115,15 @@ public abstract class CoreBrewHostApplicationExtension
         ConfigureServices(ApplicationBuilder.Services);
         AddHostAppExtensions(hostApplicationExtensionRegistry);
     }
+    
+    /// <summary>
+    /// Configures base logging
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="loggingBuilder"></param>
+    protected virtual void ConfigureLogging(IServiceCollection services, ILoggingBuilder loggingBuilder)
+    {
+    }    
 }
 
 public abstract class CoreBrewHostApplicationBuilderBase : CoreBrewHostApplicationExtension
@@ -173,15 +183,6 @@ public abstract class CoreBrewHostApplicationBuilderBase : CoreBrewHostApplicati
     /// <inheritdoc />
     protected override void ConfigureConfiguration(IConfigurationManager configurationManager,
         CoreBrewOptionsBinder optionsBinder)
-    {
-    }
-
-    /// <summary>
-    /// Configures base logging
-    /// </summary>
-    /// <param name="services"></param>
-    /// <param name="loggingBuilder"></param>
-    protected virtual void ConfigureLogging(IServiceCollection services, ILoggingBuilder loggingBuilder)
     {
     }
 
