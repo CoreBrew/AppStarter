@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>dotnet-SerilogSampleService-ea88dd9e-c0e7-4b41-88c5-34f12e8501d3</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Src\CoreBrew.AppStarter.Logging.Serilog\CoreBrew.AppStarter.Logging.Serilog.csproj" />
+      <ProjectReference Include="..\..\..\..\Src\CoreBrew.AppStarter\CoreBrew.AppStarter.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Logs\" />
+    </ItemGroup>
+</Project>

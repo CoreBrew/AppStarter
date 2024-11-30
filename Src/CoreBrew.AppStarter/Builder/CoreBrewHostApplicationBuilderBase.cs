@@ -113,6 +113,7 @@ public abstract class CoreBrewHostApplicationExtension
     {
         ConfigureConfiguration(ApplicationBuilder.Configuration, OptionsBinder);
         ConfigureServices(ApplicationBuilder.Services);
+        ConfigureLogging(ApplicationBuilder.Services,ApplicationBuilder.Logging);
         AddHostAppExtensions(hostApplicationExtensionRegistry);
     }
     

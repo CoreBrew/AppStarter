@@ -6,6 +6,8 @@
         <Nullable>enable</Nullable>
         <AssemblyName>CoreBrew.AppStarter.Logging.Serilog</AssemblyName>
         <RootNamespace>CoreBrew.AppStarter.Logging.Serilog</RootNamespace>
+        <Version>0.0.1-alpha</Version>
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
