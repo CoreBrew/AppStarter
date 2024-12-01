@@ -8,16 +8,20 @@
         <RootNamespace>CoreBrew.AppStarter.Logging.Serilog</RootNamespace>
         <Version>0.0.1-alpha</Version>
         <IsPackable>false</IsPackable>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
-      <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
-      <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.3"/>
+        <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1"/>
+        <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0"/>
+        <None Include="..\..\LICENSE.md" Pack="true" PackagePath=""/>
+        <None Include="README.md" Pack="true" PackagePath=""/>        
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CoreBrew.AppStarter\CoreBrew.AppStarter.csproj" />
+        <ProjectReference Include="..\CoreBrew.AppStarter\CoreBrew.AppStarter.csproj"/>
     </ItemGroup>
 
 </Project>
