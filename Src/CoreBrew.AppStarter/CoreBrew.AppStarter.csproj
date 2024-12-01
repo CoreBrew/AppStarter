@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <LangVersion>12</LangVersion>
-        <Version>0.0.6</Version>
+        <Version>0.0.7</Version>
         <Title>CoreBrew.AppStarter</Title>
         <Authors>CoreBrew</Authors>
         <Description>Package containing CoreBrew destilled functionality for making app starting easier</Description>
@@ -21,7 +21,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.11" />
         <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.1.0" />
         <None Include="CoreBrew_96.png" Pack="true" PackagePath=""/>
         <None Include="..\..\LICENSE.md" Pack="true" PackagePath=""/>
         <None Include="..\..\README.md" Pack="true" PackagePath=""/>

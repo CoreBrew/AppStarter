@@ -4,19 +4,20 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>        
         <AssemblyName>CoreBrew.AppStarter.Logging.Serilog</AssemblyName>
         <RootNamespace>CoreBrew.AppStarter.Logging.Serilog</RootNamespace>
         <Version>0.0.1</Version>
-        <IsPackable>true</IsPackable>
-        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
         <Title>CoreBrew.AppStarter.Logging.Serilog</Title>
+        <Authors>CoreBrew</Authors>        
         <Copyright>CoreBrew</Copyright>
         <PackageProjectUrl>https://github.com/CoreBrew/AppStarter</PackageProjectUrl>
-        <PackageIcon>CoreBrew_96.png</PackageIcon>
-        <Authors>CoreBrew</Authors>
-        <Description>Extend the CoreBrew.AppStarter with Logging capabilities from Serilog. </Description>
+        <Description>Extend the CoreBrew.AppStarter with Logging capabilities from Serilog. </Description>         
         <RepositoryUrl>https://github.com/CoreBrew/AppStarter</RepositoryUrl>
+        <PackageIcon>CoreBrew_96.png</PackageIcon>        
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>        
+        <IsPackable>false</IsPackable>        
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,11 +26,8 @@
         <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1"/>
         <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0"/>
         <None Include="..\..\LICENSE.md" Pack="true" PackagePath=""/>
-        <None Include="README.md" Pack="true" PackagePath=""/>        
-        <None Update="CoreBrew_96.png">
-          <Pack>true</Pack>
-          <PackagePath></PackagePath>
-        </None>        
+        <None Include="README.md" Pack="true" PackagePath=""/>
+        <None Include="CoreBrew_96.png" Pack="true" PackagePath=""/>        
     </ItemGroup>
 
 </Project>
