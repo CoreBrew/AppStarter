@@ -17,11 +17,11 @@
         <PackageIcon>CoreBrew_96.png</PackageIcon>        
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>        
-        <IsPackable>false</IsPackable>        
+        <IsPackable>true</IsPackable>        
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CoreBrew.AppStarter" Version="0.0.6" />
+        <PackageReference Include="CoreBrew.AppStarter" Version="0.0.7" />
         <PackageReference Include="Serilog.AspNetCore" Version="8.0.3"/>
         <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1"/>
         <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0"/>
