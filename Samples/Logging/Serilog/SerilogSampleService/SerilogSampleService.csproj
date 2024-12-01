@@ -9,7 +9,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\Src\CoreBrew.AppStarter.Logging.Serilog\CoreBrew.AppStarter.Logging.Serilog.csproj" />
-      <ProjectReference Include="..\..\..\..\Src\CoreBrew.AppStarter\CoreBrew.AppStarter.csproj" />
     </ItemGroup>
 
     <ItemGroup>
