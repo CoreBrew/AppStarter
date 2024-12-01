@@ -6,22 +6,30 @@
         <Nullable>enable</Nullable>
         <AssemblyName>CoreBrew.AppStarter.Logging.Serilog</AssemblyName>
         <RootNamespace>CoreBrew.AppStarter.Logging.Serilog</RootNamespace>
-        <Version>0.0.1-alpha</Version>
-        <IsPackable>false</IsPackable>
+        <Version>0.0.1</Version>
+        <IsPackable>true</IsPackable>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <Title>CoreBrew.AppStarter.Logging.Serilog</Title>
+        <Copyright>CoreBrew</Copyright>
+        <PackageProjectUrl>https://github.com/CoreBrew/AppStarter</PackageProjectUrl>
+        <PackageIcon>CoreBrew_96.png</PackageIcon>
+        <Authors>CoreBrew</Authors>
+        <Description>Extend the CoreBrew.AppStarter with Logging capabilities from Serilog. </Description>
+        <RepositoryUrl>https://github.com/CoreBrew/AppStarter</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="CoreBrew.AppStarter" Version="0.0.6" />
         <PackageReference Include="Serilog.AspNetCore" Version="8.0.3"/>
         <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1"/>
         <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0"/>
         <None Include="..\..\LICENSE.md" Pack="true" PackagePath=""/>
         <None Include="README.md" Pack="true" PackagePath=""/>        
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\CoreBrew.AppStarter\CoreBrew.AppStarter.csproj"/>
+        <None Update="CoreBrew_96.png">
+          <Pack>true</Pack>
+          <PackagePath></PackagePath>
+        </None>        
     </ItemGroup>
 
 </Project>
