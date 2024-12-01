@@ -11,4 +11,4 @@ jobs:
       buildConfiguration: "debug"  # Pass the input value for devReleaseStage
       releaseStage: "alpha" #enforce NuGet package names must include alpha in the version name
     secrets:
-      NuGetApiKey: ${{ secrets.UPDATE_ALL_PACKAGES_KEY }}      
+      NuGetApiKey: ${{ secrets.CREATE_AND_UPDATE_ALL_PACKAGES_KEY }}      

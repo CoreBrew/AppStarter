@@ -11,4 +11,4 @@ jobs:
       buildConfiguration: "Release"
       releaseStage: "" #empty release stage, should also be the default
     secrets:
-      NuGetApiKey: ${{ secrets.UPDATE_ALL_PACKAGES_KEY }}      
+      NuGetApiKey: ${{ secrets.CREATE_AND_UPDATE_ALL_PACKAGES_KEY }}      
