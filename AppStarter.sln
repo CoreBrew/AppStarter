@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreBrew.AppStarter.Logging
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerilogSampleService", "Samples\Logging\Serilog\SerilogSampleService\SerilogSampleService.csproj", "{8CBF6AF8-C674-4B1D-A7D5-602A14E1017C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MudBlazorSample", "Samples\AppStarter\MudBlazorSample\MudBlazorSample.csproj", "{E8FA039A-DEBE-44BC-ADEC-F9ED2895F3D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,7 @@ Global
 		{BDAF021E-4592-4656-B84E-71CB39AAF291} = {26E0FF54-7A77-453B-85F1-D315FDDE1CBF}
 		{22EA8FD1-B9C6-4BDF-B2EB-92E66824D610} = {C0C1A48D-106D-4E7D-8AB6-142B8ECCF832}
 		{8CBF6AF8-C674-4B1D-A7D5-602A14E1017C} = {BDAF021E-4592-4656-B84E-71CB39AAF291}
+		{E8FA039A-DEBE-44BC-ADEC-F9ED2895F3D5} = {DFEDEC8B-9F10-4EE2-BD7B-D97816C83BE9}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{40589C16-D4A4-4D0B-8FFE-B28D3183DE10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -79,5 +82,9 @@ Global
 		{8CBF6AF8-C674-4B1D-A7D5-602A14E1017C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CBF6AF8-C674-4B1D-A7D5-602A14E1017C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CBF6AF8-C674-4B1D-A7D5-602A14E1017C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8FA039A-DEBE-44BC-ADEC-F9ED2895F3D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8FA039A-DEBE-44BC-ADEC-F9ED2895F3D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8FA039A-DEBE-44BC-ADEC-F9ED2895F3D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8FA039A-DEBE-44BC-ADEC-F9ED2895F3D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -7,11 +7,11 @@ namespace CoreBrew.AppStarter.Builder;
 /// <summary>
 ///     Abstract base class setting up the fundamentals of the WebApp
 /// </summary>
-public abstract class WebCoreBrewHostApplicationBuilder : CoreBrewHostApplicationBuilderBase<WebApplication>
+public abstract class CoreBrewBlazorHostApplicationBuilder : CoreBrewHostApplicationBuilderBase<WebApplication>
 {
     /// <summary>
     /// </summary>
-    protected WebCoreBrewHostApplicationBuilder() : base(WebApplication.CreateBuilder(Environment.GetCommandLineArgs()))
+    protected CoreBrewBlazorHostApplicationBuilder() : base(WebApplication.CreateBuilder(Environment.GetCommandLineArgs()))
     {
     }
 
@@ -35,17 +35,19 @@ public abstract class WebCoreBrewHostApplicationBuilder : CoreBrewHostApplicatio
     protected override void ConfigureApplication(WebApplication app)
     {
         base.ConfigureApplication(app);
-        if (app.Environment.IsDevelopment())
+
+        // Configure the HTTP request pipeline.
+        if (!app.Environment.IsDevelopment())
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseExceptionHandler("/Error", createScopeForErrors: true);
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
         }
 
         app.UseHttpsRedirection();
 
-        app.UseAuthorization();
-
-        app.MapControllers();        
+        app.UseStaticFiles();
+        app.UseAntiforgery();
     }
     
 }

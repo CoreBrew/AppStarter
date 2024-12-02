@@ -1,4 +1,5 @@
 using CoreBrew.AppStarter.Options;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -127,10 +128,10 @@ public abstract class CoreBrewHostApplicationExtension
     }    
 }
 
-public abstract class CoreBrewHostApplicationBuilderBase : CoreBrewHostApplicationExtension
+public abstract class CoreBrewHostApplicationBuilderBase<TApplication> : CoreBrewHostApplicationExtension where TApplication : class, IHost
 {
-    private IHost _app = null!;
-    private ILogger<IHost> _logger = null!;
+    private TApplication _app = null!;
+    private ILogger<TApplication> _logger = null!;
     private IHostApplicationLifetime _hostApplicationLifetime = null!;
     private IHostEnvironment _hostEnvironment = null!;
     private readonly HostApplicationExtensionRegistry _hostApplicationExtensionRegistry;
@@ -156,16 +157,15 @@ public abstract class CoreBrewHostApplicationBuilderBase : CoreBrewHostApplicati
     /// <summary>
     /// Build the application
     /// </summary>
-    public IHost Build()
+    public TApplication Build()
     {
         _app = BuildApp();
-        _logger = _app.Services.GetRequiredService<ILogger<IHost>>();
+        _logger = _app.Services.GetRequiredService<ILogger<TApplication>>();
         _hostApplicationLifetime = _app.Services.GetRequiredService<IHostApplicationLifetime>();
         _hostEnvironment = _app.Services.GetRequiredService<IHostEnvironment>();
         _hostApplicationLifetime.ApplicationStopping.Register(HostApplicationStopping);
-        
         LogApplicationStart(_logger);
-        OnAfterBuilt();
+        ConfigureApplication(_app);
         return _app;
     }
 
@@ -173,7 +173,7 @@ public abstract class CoreBrewHostApplicationBuilderBase : CoreBrewHostApplicati
     /// Call the abstract function that inheritors must implement, and build the specific host application type
     /// </summary>
     /// <returns></returns>
-    protected abstract IHost BuildApp();
+    protected abstract TApplication BuildApp();
 
 
     /// <inheritdoc />
@@ -216,7 +216,8 @@ public abstract class CoreBrewHostApplicationBuilderBase : CoreBrewHostApplicati
     /// After application has been built. allow to get a hook that allows to call
     /// out any required service classes and other misc actions that needs to be done before calling run/runasync
     /// </summary>
-    protected virtual void OnAfterBuilt()
+    protected virtual void ConfigureApplication(TApplication app)
     {
+        
     }
 }

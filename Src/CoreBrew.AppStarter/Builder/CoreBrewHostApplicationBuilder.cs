@@ -3,17 +3,17 @@ using Microsoft.Extensions.Hosting;
 namespace CoreBrew.AppStarter.Builder;
 
 /// <inheritdoc />
-public abstract class CoreBrewHostApplicationBuilder : CoreBrewHostApplicationBuilderBase
+public abstract class CoreBrewHostApplicationBuilder : CoreBrewHostApplicationBuilderBase<IHost>
 {
     /// <inheritdoc />
-    protected CoreBrewHostApplicationBuilder() : base(new Microsoft.Extensions.Hosting.HostApplicationBuilder(Environment.GetCommandLineArgs()))
+    protected CoreBrewHostApplicationBuilder() : base(new HostApplicationBuilder(Environment.GetCommandLineArgs()))
     {
     }
 
     /// <inheritdoc />
     protected override IHost BuildApp()
     {
-        var app = (ApplicationBuilder as Microsoft.Extensions.Hosting.HostApplicationBuilder)!.Build();
+        var app = (ApplicationBuilder as HostApplicationBuilder)!.Build();
         return app;
     }
 }

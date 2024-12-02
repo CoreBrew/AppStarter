@@ -1,3 +1,3 @@
-using AppStarterWebApplication;
+using MudBlazorSample;
 
 new AppBuilder().Build().Run();
