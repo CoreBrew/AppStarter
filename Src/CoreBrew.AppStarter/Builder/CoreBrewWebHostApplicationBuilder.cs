@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,7 +28,12 @@ public abstract class WebCoreBrewHostApplicationBuilder : CoreBrewHostApplicatio
     /// <inheritdoc />
     protected override WebApplication BuildApp()
     {
-        var app = (ApplicationBuilder as WebApplicationBuilder)!.Build();
+        var appBuilder = (ApplicationBuilder as WebApplicationBuilder)!;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            appBuilder.Host.UseWindowsService();            
+        }        
+        var app  = appBuilder.Build();
         return app;
     }
 

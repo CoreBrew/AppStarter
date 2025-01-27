@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Microsoft.Extensions.Hosting;
 
 namespace CoreBrew.AppStarter.Builder;
@@ -13,7 +14,12 @@ public abstract class CoreBrewHostApplicationBuilder : CoreBrewHostApplicationBu
     /// <inheritdoc />
     protected override IHost BuildApp()
     {
-        var app = (ApplicationBuilder as HostApplicationBuilder)!.Build();
+        var appBuilder = (ApplicationBuilder as HostApplicationBuilder)!;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            appBuilder.Services.AddWindowsService();            
+        }
+        var app = appBuilder.Build();
         return app;
     }
 }
