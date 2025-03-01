@@ -7,8 +7,4 @@
         <LangVersion>12</LangVersion>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
-    </ItemGroup>
-
 </Project>
