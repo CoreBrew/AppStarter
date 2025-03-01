@@ -7,7 +7,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>        
         <AssemblyName>CoreBrew.AppStarter.Logging.Serilog</AssemblyName>
         <RootNamespace>CoreBrew.AppStarter.Logging.Serilog</RootNamespace>
-        <Version>0.0.3-alpha</Version>
+        <Version>0.0.3</Version>
         <Title>CoreBrew.AppStarter.Logging.Serilog</Title>
         <Authors>CoreBrew</Authors>        
         <Copyright>CoreBrew</Copyright>
@@ -21,7 +21,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CoreBrew.AppStarter" Version="0.0.10-alpha" />
+        <PackageReference Include="CoreBrew.AppStarter" Version="0.0.10" />
         <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
         <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1"/>
         <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0"/>
