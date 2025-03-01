@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>        
@@ -21,8 +21,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CoreBrew.AppStarter" Version="0.0.8" />
-        <PackageReference Include="Serilog.AspNetCore" Version="8.0.3"/>
+        <PackageReference Include="CoreBrew.AppStarter" Version="0.0.9" />
+        <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
         <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1"/>
         <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0"/>
         <None Include="..\..\LICENSE.md" Pack="true" PackagePath=""/>

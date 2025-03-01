@@ -15,10 +15,6 @@ public abstract class CoreBrewHostApplicationBuilder : CoreBrewHostApplicationBu
     protected override IHost BuildApp()
     {
         var appBuilder = (ApplicationBuilder as HostApplicationBuilder)!;
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            appBuilder.Services.AddWindowsService();            
-        }
         var app = appBuilder.Build();
         return app;
     }

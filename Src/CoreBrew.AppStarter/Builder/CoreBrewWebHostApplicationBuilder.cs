@@ -29,10 +29,6 @@ public abstract class WebCoreBrewHostApplicationBuilder : CoreBrewHostApplicatio
     protected override WebApplication BuildApp()
     {
         var appBuilder = (ApplicationBuilder as WebApplicationBuilder)!;
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            appBuilder.Host.UseWindowsService();            
-        }        
         var app  = appBuilder.Build();
         return app;
     }
