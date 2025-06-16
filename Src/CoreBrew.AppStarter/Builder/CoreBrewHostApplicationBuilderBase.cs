@@ -218,6 +218,5 @@ public abstract class CoreBrewHostApplicationBuilderBase<TApplication> : CoreBre
     /// </summary>
     protected virtual void ConfigureApplication(TApplication app)
     {
-        
     }
 }
