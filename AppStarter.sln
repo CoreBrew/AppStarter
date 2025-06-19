@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MudBlazorSample", "Samples\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppStarterWpfSample", "Samples\AppStarterWpfSample\AppStarterWpfSample.csproj", "{555E2982-1808-4580-A1F1-11643A39883B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreBrew.AppStarter.Desktop", "Src\CoreBrew.AppStarter.Desktop\CoreBrew.AppStarter.Desktop.csproj", "{9AFB5718-EEE7-41F1-BBDB-C62C19075A9D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreBrew.AppStarter.Wpf", "Src\CoreBrew.AppStarter.Wpf\CoreBrew.AppStarter.Wpf.csproj", "{9AFB5718-EEE7-41F1-BBDB-C62C19075A9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

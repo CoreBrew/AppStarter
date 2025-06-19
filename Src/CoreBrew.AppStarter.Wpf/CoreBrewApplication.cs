@@ -3,7 +3,7 @@ using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace CoreBrew.AppStarter.Desktop;
+namespace CoreBrew.AppStarter.Wpf;
 
 public abstract class CoreBrewApplication<TMainWindow> : Application where TMainWindow : Window, new()
 {
