@@ -36,6 +36,10 @@ public abstract class CoreBrewHostedServiceBase : BackgroundService
     /// The name of the long-running background worker
     /// </summary>
     public string Name { get; set; }
+    /// <summary>
+    /// When true, a dedicated new thread will be assigned to the background service
+    /// </summary>
+    public bool UseDedicatedThread { get; set; }
 
     /// <inheritdoc />
     protected CoreBrewHostedServiceBase(IHostApplicationLifetime hostApplicationLifetime,
@@ -57,14 +61,43 @@ public abstract class CoreBrewHostedServiceBase : BackgroundService
     /// <inheritdoc />
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _taskCompletionSource = new TaskCompletionSource();
         _stoppingToken = stoppingToken;
+        return UseDedicatedThread ? RunWithThread() : RunWithTask();
+    }
+
+    private Task RunWithTask()
+    {
+        return Task.Run(async void () =>
+        {
+            try
+            {
+                while (!_stoppingToken.IsCancellationRequested)
+                {
+                    _cycleTimeStart = DateTime.UtcNow;
+                    if (_applicationStarted)
+                    {
+                        await InternalExecute();
+                    }
+
+                    EnsureTargetCycleTimeHasElapsed(_stoppingToken);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogCritical(e, "Unhandled exception in HostedService: {ServiceName}", GetType().Name);
+            }
+        }, _stoppingToken);
+    }
+
+    private Task RunWithThread()
+    {
+        _taskCompletionSource = new TaskCompletionSource();
         _thread = new Thread(
             async void () =>
             {
                 try
                 {
-                    while (!stoppingToken.IsCancellationRequested)
+                    while (!_stoppingToken.IsCancellationRequested)
                     {
                         _cycleTimeStart = DateTime.UtcNow;
                         if (_applicationStarted)
@@ -72,7 +105,7 @@ public abstract class CoreBrewHostedServiceBase : BackgroundService
                             await InternalExecute();
                         }
 
-                        EnsureTargetCycleTimeHasElapsed(stoppingToken);
+                        EnsureTargetCycleTimeHasElapsed(_stoppingToken);
                     }
                     _taskCompletionSource.SetResult();
                 }
