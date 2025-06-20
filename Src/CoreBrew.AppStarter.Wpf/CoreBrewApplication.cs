@@ -13,6 +13,7 @@ public abstract class CoreBrewApplication<TMainWindow> : Application where TMain
     private IHostApplicationLifetime _hostLifeTime = null!;
 
     protected IHost Host { get; set; } = null!;
+    public IServiceProvider Services => Host.Services;
     
     protected override void OnStartup(StartupEventArgs e)
     {
