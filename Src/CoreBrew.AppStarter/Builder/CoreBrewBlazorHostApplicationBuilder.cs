@@ -11,7 +11,7 @@ public abstract class CoreBrewBlazorHostApplicationBuilder : CoreBrewHostApplica
 {
     /// <summary>
     /// </summary>
-    protected CoreBrewBlazorHostApplicationBuilder() : base(WebApplication.CreateBuilder(Environment.GetCommandLineArgs()))
+    protected CoreBrewBlazorHostApplicationBuilder() : base(WebApplication.CreateBuilder(System.Environment.GetCommandLineArgs()))
     {
     }
 

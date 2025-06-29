@@ -1,7 +1,7 @@
 using CoreBrew.AppStarter.Options;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.Metrics;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -61,8 +61,29 @@ public class HostApplicationExtensionRegistry
 /// Interface for the basic calls shared by both the actual builder class
 /// and any CoreBrew application add ins 
 /// </summary>
-public abstract class CoreBrewHostApplicationExtension
+public abstract class CoreBrewHostApplicationExtension : IHostApplicationBuilder
 {
+    /// <inheritdoc />
+    public void ConfigureContainer<TContainerBuilder>(IServiceProviderFactory<TContainerBuilder> factory, Action<TContainerBuilder>? configure = null) where TContainerBuilder : notnull
+    {
+        ApplicationBuilder.ConfigureContainer(factory, configure);
+    }
+
+    /// <inheritdoc />
+    public IConfigurationManager Configuration => ApplicationBuilder.Configuration;
+
+    /// <inheritdoc />
+    public IHostEnvironment Environment => ApplicationBuilder.Environment;
+
+    /// <inheritdoc />
+    public ILoggingBuilder Logging => ApplicationBuilder.Logging;
+
+    /// <inheritdoc />
+    public IMetricsBuilder Metrics => ApplicationBuilder.Metrics;
+
+    /// <inheritdoc />
+    public IDictionary<object, object> Properties => ApplicationBuilder.Properties;    
+    
     /// <summary>
     /// The OptionsBinder
     /// </summary>
@@ -77,7 +98,7 @@ public abstract class CoreBrewHostApplicationExtension
     /// <summary>
     /// The IOC service collection
     /// </summary>
-    protected IServiceCollection Services => ApplicationBuilder.Services;
+    public IServiceCollection Services => ApplicationBuilder.Services;
 
     /// <summary>
     /// Configures services
@@ -128,6 +149,7 @@ public abstract class CoreBrewHostApplicationExtension
     }    
 }
 
+/// <inheritdoc />
 public abstract class CoreBrewHostApplicationBuilderBase<TApplication> : CoreBrewHostApplicationExtension where TApplication : class, IHost
 {
     private TApplication _app = null!;
@@ -194,7 +216,7 @@ public abstract class CoreBrewHostApplicationBuilderBase<TApplication> : CoreBre
     {
         logger.LogInformation("Host application built.");
         logger.LogInformation(
-            $"Application starting, current user is: {Environment.UserName}. Environment name is: {_hostEnvironment.EnvironmentName}. OS Version string is {Environment.OSVersion.VersionString}");
+            $"Application starting, current user is: {System.Environment.UserName}. Environment name is: {_hostEnvironment.EnvironmentName}. OS Version string is {System.Environment.OSVersion.VersionString}");
     }
 
     private void HostApplicationStopping()
@@ -208,8 +230,9 @@ public abstract class CoreBrewHostApplicationBuilderBase<TApplication> : CoreBre
     /// <param name="logger"></param>
     protected virtual void LogApplicationStopping(ILogger logger)
     {
+        
         logger.LogInformation(
-            $"Host Application stopping, current user is: {Environment.UserName}. Environment name is: {_hostEnvironment.EnvironmentName}. OS Version string is {Environment.OSVersion.VersionString}");
+            $"Host Application stopping, current user is: {System.Environment.UserName}. Environment name is: {_hostEnvironment.EnvironmentName}. OS Version string is {System.Environment.OSVersion.VersionString}");
     }
 
     /// <summary>

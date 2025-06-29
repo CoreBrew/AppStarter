@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using Microsoft.Extensions.Hosting;
 
 namespace CoreBrew.AppStarter.Builder;
@@ -7,7 +6,7 @@ namespace CoreBrew.AppStarter.Builder;
 public abstract class CoreBrewHostApplicationBuilder : CoreBrewHostApplicationBuilderBase<IHost>
 {
     /// <inheritdoc />
-    protected CoreBrewHostApplicationBuilder() : base(new HostApplicationBuilder(Environment.GetCommandLineArgs()))
+    protected CoreBrewHostApplicationBuilder() : base(new HostApplicationBuilder(System.Environment.GetCommandLineArgs()))
     {
     }
 

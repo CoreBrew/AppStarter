@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Version>0.0.4</Version>
+        <Version>0.0.5</Version>
         <PackageIcon>CoreBrew_96.png</PackageIcon>
         <Title>CoreBrew.AppStarter.Wpf</Title>
         <Authors>CoreBrew</Authors>

@@ -12,7 +12,7 @@ public abstract class WebCoreBrewHostApplicationBuilder : CoreBrewHostApplicatio
 {
     /// <summary>
     /// </summary>
-    protected WebCoreBrewHostApplicationBuilder() : base(WebApplication.CreateBuilder(Environment.GetCommandLineArgs()))
+    protected WebCoreBrewHostApplicationBuilder() : base(WebApplication.CreateBuilder(System.Environment.GetCommandLineArgs()))
     {
     }
 

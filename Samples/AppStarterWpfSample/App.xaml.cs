@@ -9,7 +9,9 @@ public partial class App
 {
     protected override void OnStartup(StartupEventArgs e)
     {
-        Host = new AppBuilder().Build();
+        var appBuilder = new AppBuilder();
+        BaseConfigureApplication(appBuilder);
+        Host = appBuilder.Build();
         base.OnStartup(e);
     }
 }

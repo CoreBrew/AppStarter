@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
 namespace CoreBrew.AppStarter.Wpf;
@@ -25,12 +26,16 @@ public abstract class CoreBrewApplication<TMainWindow> : Application where TMain
         _hostLifeTime.ApplicationStopping.Register(ApplicationStopping);
         _hostTask = Host.RunAsync(_applicationStoppingToken);
         
-        
         MainWindow = new TMainWindow();
         MainWindow.Closing += MainWindowOnClosing;
         MainWindow.Show();
     }
 
+    protected virtual void BaseConfigureApplication(IHostApplicationBuilder applicationBuilder)
+    {
+        applicationBuilder.Services.TryAddSingleton<TMainWindow>();        
+    }
+    
     private void ApplicationStopping()
     {
         Dispatcher.Invoke(() =>
