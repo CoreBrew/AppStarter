@@ -26,7 +26,7 @@ public abstract class CoreBrewApplication<TMainWindow> : Application where TMain
         _hostLifeTime.ApplicationStopping.Register(ApplicationStopping);
         _hostTask = Host.RunAsync(_applicationStoppingToken);
         
-        MainWindow = new TMainWindow();
+        MainWindow = Host.Services.GetRequiredService<TMainWindow>();
         MainWindow.Closing += MainWindowOnClosing;
         MainWindow.Show();
     }
@@ -76,8 +76,11 @@ public abstract class CoreBrewApplication<TMainWindow> : Application where TMain
         finally
         {
             // Now it's safe to close the window for real
-            MainWindow.Closing -= MainWindowOnClosing; // prevent recursion
-            MainWindow.Close();
+            if (MainWindow != null)
+            {
+                MainWindow.Closing -= MainWindowOnClosing; // prevent recursion
+                MainWindow.Close();
+            }
             Shutdown();
         }        
         
