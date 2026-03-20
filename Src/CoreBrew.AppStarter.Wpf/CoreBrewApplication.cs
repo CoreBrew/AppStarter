@@ -16,9 +16,21 @@ public abstract class CoreBrewApplication<TMainWindow> : Application where TMain
     protected IHost Host { get; set; } = null!;
     public IServiceProvider Services => Host.Services;
     
+    /// <summary>
+    /// The concrete WPF application needs to implement this abstract method and create the concrete host application, then
+    /// return it as an <see cref="IHostApplicationBuilder"/>. On purpose the CoreBrew Appstarter lib does not provide an interface
+    /// or type that simply exposes the build method, as to avoid having third party library integrates call build to early.
+    /// Build should be called by the actual implementation application
+    /// </summary>
+    /// <param name="buildHostApplication">A caller provided <see cref="Func{IHost}"/> that must call the build method
+    /// on the underlying implementation of the resolved <see cref="IHostApplicationBuilder"/></param>
+    /// <returns><see cref="IHostApplicationBuilder"/> The resolved host application builder interface</returns>
+    protected abstract IHostApplicationBuilder ResolveHostApplicationBuilder(out Func<IHost> buildHostApplication);  
+    
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+        InitializeHost();
         ShutdownMode = ShutdownMode.OnExplicitShutdown;
         _applicationStoppingTokenSource = new CancellationTokenSource();
         _applicationStoppingToken = _applicationStoppingTokenSource.Token;
@@ -29,6 +41,13 @@ public abstract class CoreBrewApplication<TMainWindow> : Application where TMain
         MainWindow = Host.Services.GetRequiredService<TMainWindow>();
         MainWindow.Closing += MainWindowOnClosing;
         MainWindow.Show();
+    }
+
+    private void InitializeHost()
+    {
+        var builder = ResolveHostApplicationBuilder(out var buildHostApplication);
+        builder.Services.TryAddSingleton<TMainWindow>();
+        Host = buildHostApplication();
     }
 
     protected virtual void BaseConfigureApplication(IHostApplicationBuilder applicationBuilder)
