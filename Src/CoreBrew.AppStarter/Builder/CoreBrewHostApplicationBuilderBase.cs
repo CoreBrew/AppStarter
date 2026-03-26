@@ -1,5 +1,6 @@
 using CoreBrew.AppStarter.Options;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.Metrics;
 using Microsoft.Extensions.Hosting;
@@ -165,15 +166,38 @@ public abstract class CoreBrewHostApplicationBuilderBase<TApplication> : CoreBre
     protected CoreBrewHostApplicationBuilderBase(IHostApplicationBuilder applicationBuilder)
     {
         ApplicationBuilder = applicationBuilder;
-        OptionsBinder = new CoreBrewOptionsBinder(ApplicationBuilder);
+        OptionsBinder = new CoreBrewOptionsBinder(ApplicationBuilder,GetAppSettingsFileName()!);
         _hostApplicationExtensionRegistry = new HostApplicationExtensionRegistry(applicationBuilder,OptionsBinder);
         Configure();
+    }
+    
+    /// <summary>
+    /// Gets the name of the appsettings file from the configuration providers.
+    /// </summary>
+    /// <returns>The appsettings file name or null if not found.</returns>
+    public string? GetAppSettingsFileName()
+    {
+        //TODO: fix proper handling of where to actually store the options file
+        if (ApplicationBuilder.Configuration is not IConfigurationRoot configurationRoot)
+            throw new InvalidOperationException("Configuration must be of type IConfigurationRoot.");
+
+        var jsonProvider = configurationRoot.Providers
+            .OfType<JsonConfigurationProvider>()
+            .FirstOrDefault();
+
+        return jsonProvider?.Source.Path; // Returns the file name (e.g., "appsettings.json")
     }
 
     private void Configure()
     {
+        ConfigurePreBundledServices();
         ConfigureLogging(Services, ApplicationBuilder.Logging);
         ConfigureHostAppExtension(_hostApplicationExtensionRegistry);
+    }
+
+    private void ConfigurePreBundledServices()
+    {
+        ApplicationBuilder.Services.AddSingleton<CoreBrewOptionsStore>(sp => new CoreBrewOptionsStore(GetAppSettingsFileName()!,sp));
     }
 
     /// <summary>

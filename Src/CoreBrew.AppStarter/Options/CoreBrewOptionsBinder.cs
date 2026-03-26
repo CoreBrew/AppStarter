@@ -18,11 +18,12 @@ public class CoreBrewOptionsBinder
     /// Create a new instances of the <see cref="CoreBrewOptionsBinder"/>
     /// </summary>
     /// <param name="applicationBuilder"></param>
+    /// <param name="settingsFilePath"></param>
     /// <exception cref="Exception"></exception>
-    public CoreBrewOptionsBinder(IHostApplicationBuilder applicationBuilder)
+    public CoreBrewOptionsBinder(IHostApplicationBuilder applicationBuilder, string settingsFilePath)
     {
         _applicationBuilder = applicationBuilder;
-        _settingsFilePath = GetAppSettingsFileName() ?? throw new Exception("Settings file not found");
+        _settingsFilePath = settingsFilePath;
     }
 
     /// <summary>
@@ -72,21 +73,5 @@ public class CoreBrewOptionsBinder
             var updatedJson = JsonSerializer.Serialize(dictionary, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_settingsFilePath, updatedJson);
         }
-    }
-
-    /// <summary>
-    /// Gets the name of the appsettings file from the configuration providers.
-    /// </summary>
-    /// <returns>The appsettings file name or null if not found.</returns>
-    public string? GetAppSettingsFileName()
-    {
-        if (_applicationBuilder.Configuration is not IConfigurationRoot configurationRoot)
-            throw new InvalidOperationException("Configuration must be of type IConfigurationRoot.");
-
-        var jsonProvider = configurationRoot.Providers
-            .OfType<JsonConfigurationProvider>()
-            .FirstOrDefault();
-
-        return jsonProvider?.Source.Path; // Returns the file name (e.g., "appsettings.json")
     }
 }
